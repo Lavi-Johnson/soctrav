@@ -38,5 +38,21 @@ public class UserManager {
 	    }
 	    return "User succesfully created! and ";//+ "new user is: "+newUser.toString()+" f_name: "+newUser.getFirst_name();
 	}
+	
+	public User find(Long id){
+		return _userDao.find(id);
+	}
+	
+	public User find(String email){
+		return _userDao.getByEmail(email);
+	}
+	
+	public void update(User usr){
+		_userDao.saveOrUpdate(usr);
+	}
+	
+	public void delete(User usr){
+		_userDao.delete(usr);
+	}
 
 }

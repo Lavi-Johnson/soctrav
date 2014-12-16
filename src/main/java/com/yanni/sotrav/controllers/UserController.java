@@ -1,5 +1,8 @@
 package com.yanni.sotrav.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.yanni.sotrav.exceptions.ResourceNotFoundException;
 import com.yanni.sotrav.manager.UserManager;
 import com.yanni.sotrav.models.User;
+import com.yanni.sotrav.services.IWebService;
+import com.yanni.sotrav.services.User.BaseUserService;
 import com.yanni.sotrav.dao.IUserDao;
 
 /**
@@ -25,13 +30,12 @@ public class UserController {
   // ==============
   
   // Wire the UserDao that will be used inside this controller.
-	  @Autowired
-	  @Qualifier("userDao")
-	  private IUserDao _userDao;
 	  
 	  @Autowired
-	  @Qualifier("userManagerBean")
-	  private UserManager _userManager;
+	  @Qualifier("createUserService")
+	  private IWebService webservice;
+	  
+	  private BaseUserService bus=new BaseUserService();
   
   // ===============
   // PRIVATE METHODS
@@ -44,19 +48,18 @@ public class UserController {
   @RequestMapping(value="/create/user")
   @ResponseBody
   public String create(@RequestHeader(value="email") String email, @RequestHeader(value="name") String name) {
-	  return _userManager.setAndCreateUser(email, name);
+	  Map <String, String> map = new HashMap<String, String>();
+	  map.put("email", email);
+	  map.put("name", name);
+	  return (String) webservice.process(map);//userManager.setAndCreateUser(email, name);
   }
   
   @RequestMapping(method=RequestMethod.GET, value="/find/user")//{id} //produces = { "application/json", "application/xml" } or you can headers = "Accept=application/json"
   public @ResponseBody User find(/*@PathVariable("id")*/ @RequestHeader(value="id") Long id) {
-	User newUser= new User();
-	newUser.setId(id);
-	newUser=_userDao.find(id);
-    String resp="user not found!!!";
+	  
+	User newUser=bus.find(id);
     if (newUser==null){
     	throw new ResourceNotFoundException();
-    }else{
-    	resp="found the user: "+newUser.toString()+" f_name: "+newUser.getFirst_name()+" l_name"+newUser.getLast_name();
     }
     return newUser;
   }
@@ -68,8 +71,8 @@ public class UserController {
   @ResponseBody
   public String delete(@RequestHeader(value="id") Long id) {
     try {
-      User user=_userDao.find(id);
-      _userDao.delete(user);
+      User user=bus.find(id);
+      bus.delete(user);
     }
     catch (Exception ex) {
       return "Error deleting the user: " + ex.toString();
@@ -85,7 +88,7 @@ public class UserController {
   public String getByEmail(@RequestHeader(value="email") String email) {
     String userId;
     try {
-      User user = _userDao.getByEmail(email);
+      User user = bus.find(email);
       userId = String.valueOf(user.getId());
     }
     catch (Exception ex) {
@@ -102,9 +105,9 @@ public class UserController {
   //@RequestBody BookCase bookCase
   public String updateName(@RequestHeader(value="id") long id, @RequestHeader(value="email") String email) {
     try {
-      User user = _userDao.find(id);
+      User user = bus.find(id);
       user.setUser_email(email);
-      _userDao.saveOrUpdate(user);
+      bus.Update(user);
     }
     catch (Exception ex) {
       return "Error updating the user: " + ex.toString();
