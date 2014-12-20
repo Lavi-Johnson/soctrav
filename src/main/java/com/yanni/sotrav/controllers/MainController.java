@@ -76,7 +76,7 @@ public class MainController {
 		 LOGGER.debug("Received request to showview");
 		 model.put("time", new Date());
 		 model.put("message", "hello world");
-		 return "welcome";
+		 return "home";
 	 }
 	
 	@RequestMapping("/sendmessage")
