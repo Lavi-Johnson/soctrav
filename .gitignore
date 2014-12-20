@@ -2,3 +2,5 @@
 target/m2e-wtp/web-resources/META-INF/maven/org.yanni/soctrav/pom.properties
 
 *.class
+
+target/classes/com/yanni/sotrav/controllers/MainController.class

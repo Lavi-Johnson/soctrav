@@ -3,8 +3,11 @@ package com.yanni.sotrav.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -30,12 +33,16 @@ public class UserController {
   // ==============
   
   // Wire the UserDao that will be used inside this controller.
-	  
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(UserController.class);
+	
 	  @Autowired
 	  @Qualifier("createUserService")
 	  private IWebService webservice;
 	  
-	  private BaseUserService bus=new BaseUserService();
+	  @Autowired
+	  @Qualifier("baseUserService")
+	  private BaseUserService bus;
   
   // ===============
   // PRIVATE METHODS
@@ -106,7 +113,8 @@ public class UserController {
   public String updateName(@RequestHeader(value="id") long id, @RequestHeader(value="email") String email) {
     try {
       User user = bus.find(id);
-      user.setUser_email(email);
+      System.out.println(user);
+      LOGGER.info(email);
       bus.Update(user);
     }
     catch (Exception ex) {

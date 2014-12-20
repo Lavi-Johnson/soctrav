@@ -70,6 +70,7 @@ public class MainController {
 		return stringBuilder.toString();
 	}
 	
+	// http://localhost:8080/soctrav/
 	 @RequestMapping("/")
 	 public String welcome(Map<String, Object> model) {
 		 LOGGER.debug("Received request to showview");
@@ -78,22 +79,25 @@ public class MainController {
 		 return "welcome";
 	 }
 	
-	@RequestMapping("/message")
-	@ResponseBody
-	public void jsonParse(HttpServletRequest request) {
+	@RequestMapping("/senduser")
+	public @ResponseBody User jsonParse(HttpServletRequest request) {
 		InputStream inputStreamObject;
+		User user=new User();
 		try {
-			Message msg=JsonConfigLoader.load(request.getInputStream(), Message.class);
+//			Message msg=JsonConfigLoader.load(request.getInputStream(), Message.class);
+			user=JsonConfigLoader.load(request.getInputStream(), User.class);
 //			BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStreamObject, "UTF-8"));
 //			StringBuilder responseStrBuilder = new StringBuilder();
 //
 //			String inputStr;
 //			while ((inputStr = streamReader.readLine()) != null)
 //			 responseStrBuilder.append(inputStr);
+			LOGGER.info("Debugg mofo!!! "+user.getUser_email());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return user;
 	}
 
 	@RequestMapping(value = "/create/location")
