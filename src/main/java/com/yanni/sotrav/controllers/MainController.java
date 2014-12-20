@@ -79,25 +79,23 @@ public class MainController {
 		 return "welcome";
 	 }
 	
-	@RequestMapping("/senduser")
-	public @ResponseBody User jsonParse(HttpServletRequest request) {
+	@RequestMapping("/sendmessage")
+	public @ResponseBody Message jsonParse(HttpServletRequest request) {
 		InputStream inputStreamObject;
-		User user=new User();
+		Message msg=new Message();
 		try {
-//			Message msg=JsonConfigLoader.load(request.getInputStream(), Message.class);
-			user=JsonConfigLoader.load(request.getInputStream(), User.class);
+			msg=JsonConfigLoader.load(request.getInputStream(), Message.class);
 //			BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStreamObject, "UTF-8"));
 //			StringBuilder responseStrBuilder = new StringBuilder();
 //
 //			String inputStr;
 //			while ((inputStr = streamReader.readLine()) != null)
 //			 responseStrBuilder.append(inputStr);
-			LOGGER.info("Debugg mofo!!! "+user.getUser_email());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return user;
+		return msg;
 	}
 
 	@RequestMapping(value = "/create/location")

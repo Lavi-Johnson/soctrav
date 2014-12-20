@@ -1,7 +1,11 @@
 package com.yanni.sotrav.controllers;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +24,7 @@ import com.yanni.sotrav.manager.UserManager;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.IWebService;
 import com.yanni.sotrav.services.User.BaseUserService;
+import com.yanni.sotrav.common.JsonConfigLoader;
 import com.yanni.sotrav.dao.IUserDao;
 
 /**
@@ -121,6 +126,20 @@ public class UserController {
       return "Error updating the user: " + ex.toString();
     }
     return "User succesfully updated!";
-  } 
+  }
+  
+	@RequestMapping("/senduser")
+	public @ResponseBody User jsonParse(HttpServletRequest request) {
+		InputStream inputStreamObject;
+		User user=new User();
+		try {
+			user=JsonConfigLoader.load(request.getInputStream(), User.class);
+			LOGGER.info("Debugg mofo!!! "+user.getUser_email());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return user;
+	}
 
 } // class UserController
