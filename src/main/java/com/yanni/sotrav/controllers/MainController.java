@@ -13,12 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yanni.sotrav.common.ApplicationBeanFactory;
 import com.yanni.sotrav.common.JsonConfigLoader;
 import com.yanni.sotrav.dao.Dao;
 import com.yanni.sotrav.dao.IUserDao;
@@ -26,6 +28,7 @@ import com.yanni.sotrav.models.Location;
 import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.Room;
 import com.yanni.sotrav.models.User;
+import com.yanni.sotrav.services.User.BaseUserService;
 
 @Controller
 public class MainController {
@@ -34,6 +37,8 @@ public class MainController {
 			.getLogger(MainController.class);
 	@Autowired
 	private Dao dao;
+	@Autowired
+	ApplicationBeanFactory factorybean;
 
 	// @Value("${application.message:Hello World}")
 	// private String message = "Hello World";
@@ -154,7 +159,14 @@ public class MainController {
 	@RequestMapping(value = "/test")
 	@ResponseBody
 	public String testing() {
-		return "test success!!!";
+		BaseUserService bus=(BaseUserService) factorybean.getBean("baseUserService");
+		User usr=new User();
+		try {
+			usr=bus.find(1);
+		}catch (Exception ex){
+			LOGGER.error("problem finding user",ex);
+		}
+		return "test success!!!"+usr.toString()+" "+usr.getFirst_name();
 	}
 
 	// @RequestMapping("/showview")
