@@ -15,23 +15,9 @@ public class UserManager {
 	@Qualifier("userDao")
 	private IUserDao _userDao;
 	
-	public String setAndCreateUser(String email, String name){
-		User newUser;
+	public String createUser(User usr){
 	    try {
-			newUser= new User();
-			newUser.setLast_updated(new Date());
-			newUser.setUser_registered(new Date());
-			newUser.setUser_activation_key("abcdadfafasfsdf");
-			newUser.setUser_email(email);
-			newUser.setAlias("ypeng");
-			newUser.setUser_name("yanniPeng");
-			newUser.setFirst_name(name);
-			newUser.setLast_name("chang");
-			newUser.setUser_pass("vocal123");
-			newUser.setUser_type_id(new Integer(3));
-			newUser.setUser_registered(new Date());
-			newUser.setUser_status(1);
-			_userDao.saveOrUpdate(newUser);
+			_userDao.saveOrUpdate(usr);
 	    }
 	    catch (Exception ex) {
 	      return "Error creating the user: " + ex.toString();

@@ -21,6 +21,7 @@ import com.yanni.sotrav.exceptions.ResourceNotFoundException;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.IWebService;
 import com.yanni.sotrav.services.User.BaseUserService;
+import com.yanni.sotrav.common.ApplicationBeanFactory;
 import com.yanni.sotrav.common.JsonConfigLoader;
 /**
  * Class UserController
@@ -37,8 +38,7 @@ public class UserController {
 			.getLogger(UserController.class);
 	
 	  @Autowired
-	  @Qualifier("createUserService")
-	  private IWebService webservice;
+	  ApplicationBeanFactory factorybean;
 	  
 	  @Autowired
 	  @Qualifier("baseUserService")
@@ -54,11 +54,12 @@ public class UserController {
    */
   @RequestMapping(value="/create/user")
   @ResponseBody
-  public String create(@RequestHeader(value="email") String email, @RequestHeader(value="name") String name) {
-	  Map <String, String> map = new HashMap<String, String>();
-	  map.put("email", email);
-	  map.put("name", name);
-	  return (String) webservice.process(map);//userManager.setAndCreateUser(email, name);
+  public String create(HttpServletRequest request){ // (@RequestHeader(value="email") String email, @RequestHeader(value="name") String name) {
+//	  Map <String, String> map = new HashMap<String, String>();
+//	  map.put("email", email);
+//	  map.put("name", name);
+	  IWebService webservice=(IWebService) factorybean.getBean("createUserService");
+	  return (String) webservice.process(request);//userManager.setAndCreateUser(email, name);
   }
   
   @RequestMapping(method=RequestMethod.GET, value="/find/user")//{id} //produces = { "application/json", "application/xml" } or you can headers = "Accept=application/json"
@@ -112,6 +113,7 @@ public class UserController {
   public String updateName(@RequestHeader(value="id") long id, @RequestHeader(value="email") String email) {
 	try {
       User user = bus.find(id);
+      user.setUser_email(email);
       System.out.println(user);
       LOGGER.info(email);
       bus.Update(user);
@@ -124,7 +126,6 @@ public class UserController {
   
 	@RequestMapping("/senduser")
 	public @ResponseBody User jsonParse(HttpServletRequest request) {
-		InputStream inputStreamObject;
 		User user=new User();
 		try {
 			user=JsonConfigLoader.load(request.getInputStream(), User.class);
@@ -136,4 +137,4 @@ public class UserController {
 		return user;
 	}
 
-} // class UserController
+}
