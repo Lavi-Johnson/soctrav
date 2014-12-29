@@ -6,3 +6,7 @@ target/m2e-wtp/web-resources/META-INF/maven/org.yanni/soctrav/pom.properties
 target/classes/com/yanni/sotrav/controllers/MainController.class
 
 *.class
+
+target/classes/com/yanni/sotrav/controllers/UserController.class
+
+target/classes/com/yanni/sotrav/manager/UserManager.class
