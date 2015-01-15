@@ -1,5 +1,6 @@
 package com.yanni.sotrav.models;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,8 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Class User
@@ -20,7 +25,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name="users", catalog = "social_traveler")
-public class User {
+public class User implements UserDetails{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,6 +55,10 @@ public class User {
 	private Date user_registered;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="user_end_date", nullable = false)
+	private Date user_end_date;
+
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="update_dt", nullable = false)
 	private Date update_dt;
 	  
@@ -64,6 +73,22 @@ public class User {
 	
 	@Column(name = "user_type_id", nullable = false)
 	private Integer user_type_id;
+	
+	//@Transient
+	private long expires;
+	
+	
+	@NotNull
+	private boolean accountExpired;
+
+	@NotNull
+	private boolean accountLocked;
+
+	@NotNull
+	private boolean credentialsExpired;
+
+	@NotNull
+	private boolean accountEnabled;
 	  
 	public long getId() {
 		return id;
@@ -104,14 +129,6 @@ public class User {
 	public void setUser_activation_key(String user_activation_key) {
 		this.user_activation_key = user_activation_key;
 	}
-	
-	public Integer getUser_status() {
-		return status;
-	}
-	
-	public void setUser_status(Integer user_status) {
-		this.status = user_status;
-	}
 	 
 	public Integer getUser_type_id() {
 		return user_type_id;
@@ -129,11 +146,11 @@ public class User {
 		this.user_name = user_name;
 	}
 
-	public Date getLast_updated() {
+	public Date getUpdated_dt() {
 		return update_dt;
 	}
 
-	public void setLast_updated(Date update_dt) {
+	public void setUpdated_dt(Date update_dt) {
 		this.update_dt = update_dt;
 	}
 
@@ -188,5 +205,64 @@ public class User {
 	  this.user_email = email;
 	  this.user_name = name;
 	}
+	
+	public Date getUser_end_date() {
+		return user_end_date;
+	}
+
+	public void setUser_end_date(Date user_end_date) {
+		this.user_end_date = user_end_date;
+	}
+	
+	public long getExpires() {
+		return expires;
+	}
+
+	public void setExpires(long expires) {
+		this.expires = expires;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return user_pass;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return user_name;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return !accountExpired;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return !accountLocked;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return !credentialsExpired;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return !accountEnabled;
+	}
+
 
 } // class User
