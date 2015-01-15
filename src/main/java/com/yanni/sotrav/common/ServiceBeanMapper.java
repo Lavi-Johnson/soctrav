@@ -11,6 +11,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yanni.sotrav.models.Location;
+import com.yanni.sotrav.models.Message;
+import com.yanni.sotrav.models.Room;
+import com.yanni.sotrav.models.User;
+
 public class ServiceBeanMapper {
 	
     public static final String SET = "set";
@@ -22,6 +27,12 @@ public class ServiceBeanMapper {
     private static final int DAY=1;
    
     private static final int YEAR=2;
+    
+    private static final int ACTIVE=1;
+    
+    private static final int INACTIVE=2;
+    
+    private static final Integer USERTYPE=3;
 	
 	public static void mapBean(Object bean, HttpServletRequest request){
 		Method[] declaredMethods =bean.getClass().getDeclaredMethods();
@@ -33,18 +44,43 @@ public class ServiceBeanMapper {
 			Object convertedValue=null;
 			if(metName.contains(SET)){
 				setterList.add(method);
-				property=metName.replaceFirst(SET, "");
+				property=metName.replaceFirst(SET, "").toLowerCase();
 				val=request.getParameter(property);
 			}
 			try {
-				if(val!=null)convertedValue=convertVal(val, method.getParameterTypes()[0]);
-				if(val!=null && convertedValue!=null){
+				if(val!=null && !val.equals(""))convertedValue=convertVal(val, method.getParameterTypes()[0]);
+				if(val!=null && !val.equals("") && convertedValue!=null){
 						method.invoke(bean, convertedValue);
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
+			}
+		}
+		setDefaultValues(bean);
+	}
+	
+	private static void setDefaultValues(Object socTravObj){
+		if(socTravObj instanceof Location){
+			Location loc=(Location)socTravObj;
+			if(loc.getJoined_dt()==null)loc.setJoined_dt(new Date());
+			loc.setLast_updated(new Date());
+			if(loc.getStatus()==null)loc.setStatus(ACTIVE);
+		}else if(socTravObj instanceof Message){
+			Message msg=(Message)socTravObj;
+			if(msg.getMessage()==null)msg.setMessage("");
+			msg.setUpdate_dt(new Date());
+			if(msg.getUser_id()==null)msg.setUser_id(-1);
+		}else if(socTravObj instanceof Room){
+			Room room=(Room)socTravObj;
+			room.setUpdate_dt(new Date());
+		}else if(socTravObj instanceof User){
+			User usr=(User)socTravObj;
+			if(usr.getStatus()==null)usr.setStatus(ACTIVE);
+			if(usr.getUser_type_id()==null)usr.setUser_type_id(USERTYPE);
+			usr.setUpdated_dt(new Date());
+			if(usr.getUser_registered()==null)usr.setUser_registered(new Date());
+			if(usr.getUser_activation_key()==null)usr.setUser_activation_key(Calendar.getInstance().getTimeInMillis()+"_activation_key");
 		}
 	}
 	
