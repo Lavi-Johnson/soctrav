@@ -29,9 +29,6 @@ public class Room {
 	@Column(name = "update_dt", nullable = false)
 	private Date update_dt;
 	
-	@Column(name = "message_id", nullable = false)
-	private Integer message_id;
-	
 	@Column(name = "user_id", nullable = false)
 	private Integer user_id;
 
@@ -73,14 +70,6 @@ public class Room {
 
 	public void setUpdate_dt(Date update_dt) {
 		this.update_dt = update_dt;
-	}
-
-	public Integer getMessage_id() {
-		return message_id;
-	}
-
-	public void setMessage_id(Integer message_id) {
-		this.message_id = message_id;
 	}
 
 	public Room() { }
