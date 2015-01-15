@@ -2,6 +2,7 @@ package com.yanni.sotrav.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,10 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.yanni.sotrav.exceptions.ResourceNotFoundException;
 import com.yanni.sotrav.models.User;
@@ -54,12 +57,12 @@ public class UserController {
    */
   @RequestMapping(value="/create/user")
   @ResponseBody
-  public String create(HttpServletRequest request){ // (@RequestHeader(value="email") String email, @RequestHeader(value="name") String name) {
-//	  Map <String, String> map = new HashMap<String, String>();
-//	  map.put("email", email);
-//	  map.put("name", name);
+  public ModelAndView create(HttpServletRequest request){ // (@RequestHeader(value="email") String email, @RequestHeader(value="name") String name) {
 	  IWebService webservice=(IWebService) factorybean.getBean("createUserService");
-	  return (String) webservice.process(request);//userManager.setAndCreateUser(email, name);
+	  String processedMsg = (String) webservice.process(request);//userManager.setAndCreateUser(email, name);
+	  ModelMap modelMap=new ModelMap();
+	  modelMap.put("processedMsg", processedMsg);
+	  return new ModelAndView("admin", modelMap);
   }
   
   @RequestMapping(method=RequestMethod.GET, value="/find/user")//{id} //produces = { "application/json", "application/xml" } or you can headers = "Accept=application/json"
