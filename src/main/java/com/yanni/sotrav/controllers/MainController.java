@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,7 +77,7 @@ public class MainController {
 	}
 	
 	// http://localhost:8080/soctrav/
-	 @RequestMapping("/")
+	 @RequestMapping({"/home.html","/"})
 	 public String welcome(Map<String, Object> model) {
 		 LOGGER.debug("Received request to showview");
 		 model.put("time", new Date());
@@ -146,7 +147,6 @@ public class MainController {
 		try {
 			Room room = new Room();
 			room.setLocation_id(1);
-			room.setMessage_id(1);
 			room.setRoom_name("nice_room");
 			room.setUpdate_dt(new Date());
 			dao.saveOrUpdate(room);
@@ -177,7 +177,7 @@ public class MainController {
 	// return "welcome";
 	// }
 
-	@RequestMapping("/showview.html")
+	@RequestMapping("nav/showview.html")
 	public ModelAndView getListUsersView() {
 		LOGGER.debug("Received request to get user list view");
 		ModelMap model = new ModelMap();
@@ -185,5 +185,26 @@ public class MainController {
 		model.put("message", "hello world");
 		return new ModelAndView("welcome", model);
 	}
-
+	
+	@RequestMapping("nav/admin.html")
+	public ModelAndView admin() {
+		LOGGER.debug("Received request to get user list view");
+		return new ModelAndView("admin");
+	}
+	
+	@RequestMapping("/login.html")
+	public ModelAndView signin() {
+		LOGGER.debug("Received request to get user list view");
+		ModelMap model = new ModelMap();
+		model.put("time", new Date());
+		model.put("message", "hello world");
+		return new ModelAndView("signin", model);
+	}
+	
+	@RequestMapping("rest/getToken")
+	public @ResponseBody CsrfToken getToken(HttpServletRequest request) {
+		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+		return token;
+	}
+	
 }
