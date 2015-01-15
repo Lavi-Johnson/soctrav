@@ -1,4 +1,6 @@
 package com.yanni.sotrav.services.User;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,8 @@ public class CreateUserService extends BaseUserService implements IWebService{
 	@Autowired
 	@Qualifier("userManagerBean")
 	private UserManager _userManager;
+	
+	private static final Integer USRSTATUS=3;
 
 	@Override
 	public Object process(HttpServletRequest request) {
