@@ -1,5 +1,6 @@
 package com.yanni.sotrav.manager;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,7 +23,7 @@ public class UserManager {
 	    catch (Exception ex) {
 	      return "Error creating the user: " + ex.toString();
 	    }
-	    return "User succesfully created! and ";//+ "new user is: "+newUser.toString()+" f_name: "+newUser.getFirst_name();
+	    return "User succesfully created!";//+ "new user is: "+newUser.toString()+" f_name: "+newUser.getFirst_name();
 	}
 	
 	public User find(Long id){
@@ -31,6 +32,10 @@ public class UserManager {
 	
 	public User find(String email){
 		return _userDao.getByEmail(email);
+	}
+	
+	public List<User> findAll(){
+		return _userDao.getAll();
 	}
 	
 	public void update(User usr){
