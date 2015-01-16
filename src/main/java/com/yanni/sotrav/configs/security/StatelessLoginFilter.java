@@ -1,8 +1,6 @@
 package com.yanni.sotrav.configs.security;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -10,20 +8,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yanni.sotrav.manager.UserManager;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.models.UserAuthentication;
 import com.yanni.sotrav.services.User.BaseUserService;
@@ -33,53 +27,35 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private final TokenAuthenticationService tokenAuthenticationService;
 	private final UserDetailsService userService;
-	
-	private UserRepository userRepository;
-
-	private void addUsers() {
-		BaseUserService bs=(BaseUserService)userService;
-		List<User> usrs=(List) bs.findAll();
-			for(User usr:usrs){
-				userRepository.save(usr);
-			}
-	}
 
 	protected StatelessLoginFilter(String urlMapping, TokenAuthenticationService tokenAuthenticationService,
-			UserDetailsService uService, AuthenticationManager authManager, UserRepository u) {
+			UserDetailsService uService, AuthenticationManager authManager) {
 		super(new AntPathRequestMatcher(urlMapping));
 		this.userService = uService;
 		this.tokenAuthenticationService = tokenAuthenticationService;
-		this.userRepository=u;
 		setAuthenticationManager(authManager);
 	}
+	
+//	private void addUsers() {
+//		BaseUserService bs=(BaseUserService)userService;
+//		List<User> usrs=(List) bs.findAll();
+//			for(User usr:usrs){
+//				String pword=usr.getUser_pass();
+//				usr.setUser_pass(new BCryptPasswordEncoder().encode(pword));
+//				bs.Update(usr);
+//			}
+//	}
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-
-		//final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-		String usr=request.getParameter("username");
-		final User user = (User) userService.loadUserByUsername(usr);
-		addUsers();
+		String usr=request.getParameter("username")!=null?request.getParameter("username"):request.getHeader("username");
+		String pword=request.getParameter("password")!=null?request.getParameter("password"):request.getHeader("password");
 		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
-				user.getUser_name(), user.getUser_pass());
-		return getAuthenticationManager().authenticate(loginToken);
+				usr, pword);
+		AuthenticationManager authman=getAuthenticationManager();
+		return authman.authenticate(loginToken);
 	}
-//	
-//	public class Authority implements GrantedAuthority{
-//		
-//		String authority="";
-//		
-//		public Authority(String auth){
-//			authority=auth;
-//		}
-//		
-//		@Override
-//		public String getAuthority() {
-//			return authority;
-//		}
-//		
-//	}
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
