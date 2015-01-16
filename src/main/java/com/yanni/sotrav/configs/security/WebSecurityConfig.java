@@ -1,8 +1,11 @@
 package com.yanni.sotrav.configs.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,6 +20,7 @@ import com.yanni.sotrav.services.token.TokenAuthenticationService;
 
 @Configuration
 @EnableWebMvcSecurity
+@Order(1)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -25,59 +29,50 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private TokenAuthenticationService tokenAuthenticationService;
 	
-	@Autowired
-	private UserRepository userRepository;
+//	@Autowired
+//	private UserRepository userRepository;
 	
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-//      authorizeRequests()
-//			.antMatchers("/", "/home", "/rest/getToken").permitAll()
-//	        .antMatchers("/resource/**").permitAll()
-//	        .anyRequest().authenticated().and()
-		.exceptionHandling().and()
-		.anonymous().and()
-		.servletApi().and()
-		.headers().cacheControl().and()
-		.authorizeRequests()
-		.antMatchers("/", "/home", "/rest/getToken", "/login.html").permitAll()
-	    .antMatchers("/resource/**").permitAll()
-	    .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-	    //.anyRequest().hasRole("USER").and()		
-		//allow anonymous resource requests
-		.antMatchers(HttpMethod.GET,"/resource/**").permitAll()
-		.antMatchers(HttpMethod.GET,"/").permitAll()
+	public WebSecurityConfig() {
+		super(true);
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+				.exceptionHandling().and()
+				.anonymous().and()
+				.servletApi().and()
+				.headers().cacheControl().and()
+				.authorizeRequests()
+								
+				//allow anonymous resource requests
+				.antMatchers("/").permitAll()
+				.antMatchers("/login.html").permitAll()
+				.antMatchers("/favicon.ico").permitAll()
+				.antMatchers("/resource/**").permitAll()
+				
+				//allow anonymous POSTs to login
+				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
+				
+				//allow anonymous GETs to API
+				//.antMatchers(HttpMethod.GET, "/api/**").permitAll()
+				
+				//defined Admin only API area
+				.antMatchers("/admin/**").hasRole("ADMIN")
+				
+				//all other request need to be authenticated
+				.anyRequest().authenticated().and()				
 		
-		//allow anonymous GETs to API
-		//.antMatchers(HttpMethod.GET, "/api/**").permitAll()
-		
-		//defined Admin only API area
-		.antMatchers("/admin/**").hasRole("ADMIN")
-		
-		//all other request need to be authenticated
-		.anyRequest().anonymous().and()		
 				// custom JSON based authentication by POST of {"username":"<name>","password":"<password>"} which sets the token header upon authentication
-		.addFilterBefore(new StatelessLoginFilter("/api/login", tokenAuthenticationService, baseUserService, authenticationManager(), userRepository), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(new StatelessLoginFilter("/api/login", tokenAuthenticationService, baseUserService, authenticationManager()), UsernamePasswordAuthenticationFilter.class)
 
-		// custom Token based authentication based on the header previously given to the client
-		.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class);
-//		.authorizeRequests()
-//		.anyRequest().authenticated().and()
-//        .formLogin()
-//           	.defaultSuccessUrl("/nav/admin.html")
-//               .loginPage("/login.html")
-//               .permitAll()
-//        .and()
-//           .logout()
-//           	.logoutSuccessUrl("/login.html?logout")
-//           	.logoutUrl("/logout")
-//            .permitAll();
-
+				// custom Token based authentication based on the header previously given to the client
+				.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Bean
 	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
+	public AuthenticationManager authenticationManagerBean() throws Exception { 
 		return super.authenticationManagerBean();
 	}
 
@@ -89,11 +84,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected UserDetailsService userDetailsService() {
 		return baseUserService;
-	}
-	
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	    auth.inMemoryAuthentication()
-	        .withUser("user@gmail.com").password("password").roles("USER");
 	}
 }
