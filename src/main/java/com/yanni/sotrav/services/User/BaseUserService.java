@@ -5,14 +5,18 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import com.yanni.sotrav.configs.security.UserRepository;
 import com.yanni.sotrav.manager.UserManager;
 import com.yanni.sotrav.models.User;
 
 @Component("baseUserService")
+@Service
 public class BaseUserService implements org.springframework.security.core.userdetails.UserDetailsService{
 	
 	@Autowired
@@ -38,12 +42,19 @@ public class BaseUserService implements org.springframework.security.core.userde
 	public List<User> findAll(){
 		return _userManager.findAll();
 	}
+	
+	@Autowired
+	private UserRepository userRepo;
+
+	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 
 	@Override
-	public UserDetails loadUserByUsername(String username)
+	public User loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		return find(username);
+		User usr=find(username);
+		detailsChecker.check(usr);
+		return usr;
 	}
 
 }
