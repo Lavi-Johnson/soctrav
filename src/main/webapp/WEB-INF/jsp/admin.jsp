@@ -228,7 +228,7 @@
 
                             <div class="form-group">
                                 <label>User Name</label>
-                                <input class="form-control" placeholder="Enter text" name="user_name" id="user_name">
+                                <input class="form-control" placeholder="Enter text" name="username" id="username">
                             </div>
                             
                             <div class="form-group">
