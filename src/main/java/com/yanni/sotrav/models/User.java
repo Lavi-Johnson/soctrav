@@ -1,7 +1,8 @@
 package com.yanni.sotrav.models;
-
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,12 +12,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Class User
@@ -36,7 +39,7 @@ public class User implements UserDetails{
 	private String user_pass;
 	  
 	@Column(name = "user_name", nullable = false, length=50)
-	private String user_name;
+	private String username;
 
 	@Column(name = "first_name", nullable = false, length=50)
 	private String first_name;
@@ -102,8 +105,10 @@ public class User implements UserDetails{
 		return user_pass;
 	}
 	
+	@JsonProperty
 	public void setUser_pass(String user_pass) {
-		this.user_pass = user_pass;
+		String p=new BCryptPasswordEncoder().encode(user_pass);
+		this.user_pass = p;
 	}
 	
 	public String getUser_email() {
@@ -139,11 +144,11 @@ public class User implements UserDetails{
 	}
 
 	public String getUser_name() {
-		return user_name;
+		return username;
 	}
 
 	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+		this.username = user_name;
 	}
 
 	public Date getUpdated_dt() {
@@ -203,7 +208,7 @@ public class User implements UserDetails{
 	 
 	public User(String email, String name) {
 	  this.user_email = email;
-	  this.user_name = name;
+	  this.username = name;
 	}
 	
 	public Date getUser_end_date() {
@@ -223,12 +228,25 @@ public class User implements UserDetails{
 	}
 
 	@Override
+	@JsonIgnore
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return null;
+		Set<UserAuthority> authorities= new HashSet<UserAuthority>();
+		if(user_type_id!=null && user_type_id!=0){
+			grantRole(authorities, user_type_id==2 ? UserRole.ADMIN : UserRole.USER);
+		}
+		return authorities;
+	}
+	
+	private void grantRole(Set<UserAuthority> authorities, UserRole role) {
+		if (authorities == null) {
+			authorities = new HashSet<UserAuthority>();
+		}
+		authorities.add(role.asAuthorityFor(this));
 	}
 
 	@Override
+	@JsonIgnore
 	public String getPassword() {
 		// TODO Auto-generated method stub
 		return user_pass;
@@ -237,28 +255,32 @@ public class User implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return user_name;
+		return username;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
 		return !accountExpired;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
 		return !accountLocked;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
 		return !credentialsExpired;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return !accountEnabled;
