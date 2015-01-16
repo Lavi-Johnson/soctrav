@@ -201,6 +201,11 @@ public class MainController {
 		return new ModelAndView("signin", model);
 	}
 	
+	@RequestMapping("/logout")
+	public ModelAndView logout() {
+		return new ModelAndView("signin");
+	}
+	
 	@RequestMapping("rest/getToken")
 	public @ResponseBody CsrfToken getToken(HttpServletRequest request) {
 		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
