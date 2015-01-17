@@ -47,6 +47,7 @@
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"></input>
+        <input type="hidden" name="client" value="browser"></input>
       </form>
 
     </div> <!-- /container -->
