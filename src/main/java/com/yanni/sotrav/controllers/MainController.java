@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.Principal;
 import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -202,8 +204,12 @@ public class MainController {
 	}
 	
 	@RequestMapping("/logout")
-	public ModelAndView logout() {
-		return new ModelAndView("signin");
+	public ModelAndView logout(HttpServletResponse response) {
+		javax.servlet.http.Cookie cookie=new javax.servlet.http.Cookie("X-AUTH-Cookie-Tok_"+System.currentTimeMillis(), "");
+        response.addCookie(cookie);
+        ModelMap model = new ModelMap();
+        model.put("message", "logged out");
+		return new ModelAndView("logout", model);
 	}
 	
 	@RequestMapping("rest/getToken")
