@@ -61,6 +61,9 @@
                     <li>
                         <a href="#">Contact</a>
                     </li>
+                     <li>
+                        <a href="login.html">Admin Login</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
