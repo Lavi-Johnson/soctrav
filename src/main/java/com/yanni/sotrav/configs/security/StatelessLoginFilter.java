@@ -54,7 +54,17 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
 				usr, pword);
 		AuthenticationManager authman=getAuthenticationManager();
-		return authman.authenticate(loginToken);
+		Authentication isauth=null;
+		try{	
+			isauth=authman.authenticate(loginToken);
+		}catch(AuthenticationException e){
+			if(request.getParameter("client")!=null || request.getHeader("client")!=null){
+				response.sendRedirect(request.getContextPath() + "/login.html?error=wrong");
+			}else{
+				throw e;
+			}
+		}
+		return isauth;
 	}
 
 	@Override
