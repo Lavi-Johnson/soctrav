@@ -1,6 +1,8 @@
 package com.yanni.sotrav.services.token;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +36,9 @@ public class TokenAuthenticationService {
 		final User user = authentication.getDetails();
 		user.setExpires(System.currentTimeMillis() + TEN_DAYS);
 		String token=tokenHandler.createTokenForUser(user);
-		Cookie cookie = new Cookie(AUTH_Cookie_NAME,token);
+		Cookie cookie = new Cookie(AUTH_Cookie_NAME+"_"+System.currentTimeMillis(),token);
 		cookie.setPath("/");
+//		cookie.setMaxAge((int) (System.currentTimeMillis() + TEN_DAYS));
 		response.addCookie(cookie);
 		response.addHeader(AUTH_HEADER_NAME, token);
 		response.getOutputStream().write(tokenHandler.toByte(token));
@@ -45,13 +48,21 @@ public class TokenAuthenticationService {
 		String chkTok = request.getHeader(AUTH_HEADER_NAME);
 		if(chkTok==null && request.getCookies()!=null){
 			Cookie[] cookies=request.getCookies();
-			for (int i = 0; i < cookies.length; i++) {
-				  String name = cookies[i].getName();
-				  if(name.equals(AUTH_Cookie_NAME)){
-					  String value = cookies[i].getValue();
-					  chkTok =value;
-					  break;
-				  }
+			//Collection<Cookie> cookietok = new ArrayList();
+			long latest=-2;
+			for (int i=0;i<cookies.length;i++) {
+				Cookie co=cookies[i];
+				if(co.getName().contains(AUTH_Cookie_NAME)){
+					String nameTime[]=co.getName().split("_");
+					long time=0;
+					if(nameTime.length>1){
+						time=Long.parseLong(nameTime[1]);
+					}
+					if(time>latest){
+						latest=time;
+						chkTok =co.getValue();
+					}
+				}
 			}
 		}
 		final String token =chkTok;
