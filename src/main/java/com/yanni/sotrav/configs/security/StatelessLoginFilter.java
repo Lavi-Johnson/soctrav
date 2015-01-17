@@ -80,5 +80,8 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 		// Add the authentication to the Security context
 		SecurityContextHolder.getContext().setAuthentication(userAuthentication);
+		if(request.getParameter("client")!=null || request.getHeader("client")!=null){
+			response.sendRedirect(request.getContextPath() + "/nav/admin.html");
+		}
 	}
 }
