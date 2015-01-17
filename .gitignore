@@ -14,3 +14,5 @@ target/classes/com/yanni/sotrav/manager/UserManager.class
 src/main/java/com/yanni/sotrav/Application.java
 
 *.class
+
+*.class
