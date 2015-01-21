@@ -1,23 +1,36 @@
 
 target/m2e-wtp/web-resources/META-INF/maven/org.yanni/soctrav/pom.properties
 
-*.class
 
-target/classes/com/yanni/sotrav/controllers/MainController.class
 
 *.class
 
-target/classes/com/yanni/sotrav/controllers/UserController.class
+*/target/**
+*target/**
+# This is a comment
+# Ignore target at the top level
+/target/
+# Ignore child project's targets as well
+/*/target/
+# And any grandchildren ...
+/*/*/target/
+# Or you can do:
+target/
+# which matches 'target' in any sub folder
+target/classes/com/yanni/sotrav/dao/IUserDao.class
 
-target/classes/com/yanni/sotrav/manager/UserManager.class
+target/classes/com/yanni/sotrav/dao/UserDao.class
 
-*.class
+target/classes/com/yanni/sotrav/exceptions/ResourceNotFoundException.class
 
-*.class
-/target
+target/classes/com/yanni/sotrav/models/Location.class
 
-*.class
+target/classes/com/yanni/sotrav/models/*
 
-*.class
+target/classes/com/yanni/sotrav/models/Room.class
 
-*.class
+target/classes/com/yanni/sotrav/models/User.class
+
+target/maven-archiver/pom.properties
+
+target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
