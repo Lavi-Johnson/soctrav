@@ -77,28 +77,30 @@ public class MainController {
 		}
 		return stringBuilder.toString();
 	}
-	
+
 	// http://localhost:8080/soctrav/
-	 @RequestMapping({"/home.html","/"})
-	 public String welcome(Map<String, Object> model) {
-		 LOGGER.debug("Received request to showview");
-		 model.put("time", new Date());
-		 model.put("message", "hello world");
-		 return "home";
-	 }
-	
+	@RequestMapping({ "/home.html", "/" })
+	public String welcome(Map<String, Object> model) {
+		LOGGER.debug("Received request to showview");
+		model.put("time", new Date());
+		model.put("message", "hello world");
+		return "home";
+	}
+
 	@RequestMapping("/sendmessage")
 	public @ResponseBody Message jsonParse(HttpServletRequest request) {
 		InputStream inputStreamObject;
-		Message msg=new Message();
+		Message msg = new Message();
 		try {
-			msg=JsonConfigLoader.load(request.getInputStream(), Message.class);
-//			BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStreamObject, "UTF-8"));
-//			StringBuilder responseStrBuilder = new StringBuilder();
-//
-//			String inputStr;
-//			while ((inputStr = streamReader.readLine()) != null)
-//			 responseStrBuilder.append(inputStr);
+			msg = JsonConfigLoader
+					.load(request.getInputStream(), Message.class);
+			// BufferedReader streamReader = new BufferedReader(new
+			// InputStreamReader(inputStreamObject, "UTF-8"));
+			// StringBuilder responseStrBuilder = new StringBuilder();
+			//
+			// String inputStr;
+			// while ((inputStr = streamReader.readLine()) != null)
+			// responseStrBuilder.append(inputStr);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -161,14 +163,15 @@ public class MainController {
 	@RequestMapping(value = "/test")
 	@ResponseBody
 	public String testing() {
-		BaseUserService bus=(BaseUserService) factorybean.getBean("baseUserService");
-		User usr=new User();
+		BaseUserService bus = (BaseUserService) factorybean
+				.getBean("baseUserService");
+		User usr = new User();
 		try {
-			usr=bus.find(1);
-		}catch (Exception ex){
-			LOGGER.error("problem finding user",ex);
+			usr = bus.find(1);
+		} catch (Exception ex) {
+			LOGGER.error("problem finding user", ex);
 		}
-		return "test success!!!"+usr.toString()+" "+usr.getFirst_name();
+		return "test success!!!" + usr.toString() + " " + usr.getFirst_name();
 	}
 
 	// @RequestMapping("/showview")
@@ -187,13 +190,13 @@ public class MainController {
 		model.put("message", "hello world");
 		return new ModelAndView("welcome", model);
 	}
-	
+
 	@RequestMapping("nav/admin.html")
 	public ModelAndView admin() {
 		LOGGER.debug("Received request to get user list view");
 		return new ModelAndView("admin");
 	}
-	
+
 	@RequestMapping("/login.html")
 	public ModelAndView signin() {
 		LOGGER.debug("Received request to get user list view");
@@ -202,20 +205,32 @@ public class MainController {
 		model.put("message", "hello world");
 		return new ModelAndView("signin", model);
 	}
-	
+
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpServletResponse response) {
-		javax.servlet.http.Cookie cookie=new javax.servlet.http.Cookie("X-AUTH-Cookie-Tok_"+System.currentTimeMillis(), "");
-        response.addCookie(cookie);
-        ModelMap model = new ModelMap();
-        model.put("message", "logged out");
+		javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie(
+				"X-AUTH-Cookie-Tok_" + System.currentTimeMillis(), "");
+		response.addCookie(cookie);
+		ModelMap model = new ModelMap();
+		model.put("message", "logged out");
 		return new ModelAndView("logout", model);
 	}
-	
-	@RequestMapping("rest/getToken")
-	public @ResponseBody CsrfToken getToken(HttpServletRequest request) {
-		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
-		return token;
+
+	@RequestMapping("/forbidden.html")
+	public ModelAndView forbidden(HttpServletRequest r) {
+		LOGGER.debug("Received request to get user list view");
+		ModelMap model = new ModelMap();
+		model.put(
+				"url",
+				r.getRequestURL().toString()
+						.replaceFirst("/forbidden.html", "/login.html"));
+		return new ModelAndView("error", model);
 	}
-	
+
+	// @RequestMapping("rest/getToken")
+	// public @ResponseBody CsrfToken getToken(HttpServletRequest request) {
+	// CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+	// return token;
+	// }
+
 }
