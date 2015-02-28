@@ -1,11 +1,14 @@
 package com.yanni.sotrav.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Repository;
+
 import com.yanni.sotrav.models.User;
 
 /**
@@ -44,6 +47,21 @@ public class UserDao extends GenericDaoImpl<User, Long> implements IUserDao{
         "from User where user_email =:email")
         .setParameter("email", email)
         .getSingleResult();
+  }
+  
+  public ArrayList<User> getUsersByName(String name) {
+	    name="%"+name+"%";
+	    System.out.println("the name is"+name);
+	    return (ArrayList<User>) getEntityManager().createQuery(
+	        "from User where CONCAT(first_name,' ',last_name) like :name") //CONCAT(first_name,' ',last_name)
+	        .setParameter("name", name)
+	        .getResultList();
+  }
+
+  @Override
+  public User find(String identity) {
+	// TODO Auto-generated method stub
+	return getByEmail(identity);
   }
 
 } // class UserDao

@@ -51,8 +51,7 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 			throws AuthenticationException, IOException, ServletException {
 		String usr=request.getParameter("username")!=null?request.getParameter("username"):request.getHeader("username");
 		String pword=request.getParameter("password")!=null?request.getParameter("password"):request.getHeader("password");
-		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
-				usr, pword);
+		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(usr, pword);
 		AuthenticationManager authman=getAuthenticationManager();
 		Authentication isauth=null;
 		try{	
@@ -72,7 +71,9 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 			FilterChain chain, Authentication authentication) throws IOException, ServletException {
 
 		// Lookup the complete User object from the database and create an Authentication for it
-		final User authenticatedUser = (User) userService.loadUserByUsername(authentication.getName());
+		System.out.println("the name is "+authentication.getName());
+		User usr=(User)authentication.getPrincipal();
+		final User authenticatedUser = (User) userService.loadUserByUsername(usr.getUser_email());
 		final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
 
 		// Add the custom token as HTTP header to the response

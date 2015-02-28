@@ -26,7 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yanni.sotrav.common.ApplicationBeanFactory;
 import com.yanni.sotrav.common.JsonConfigLoader;
 import com.yanni.sotrav.dao.Dao;
-import com.yanni.sotrav.dao.IUserDao;
 import com.yanni.sotrav.models.Location;
 import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.Room;
@@ -167,7 +166,7 @@ public class MainController {
 				.getBean("baseUserService");
 		User usr = new User();
 		try {
-			usr = bus.find(1);
+			usr = bus.find((long) 1);
 		} catch (Exception ex) {
 			LOGGER.error("problem finding user", ex);
 		}

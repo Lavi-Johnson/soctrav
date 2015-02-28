@@ -16,4 +16,10 @@ public class LocationDao extends GenericDaoImpl<Location, Long>{
 	  public List<Message> getAll() {
 	    return getEntityManager().createQuery("from Location").getResultList();
 	  }
+
+	@Override
+	public Location find(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

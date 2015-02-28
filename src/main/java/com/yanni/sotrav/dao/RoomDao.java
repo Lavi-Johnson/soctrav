@@ -17,4 +17,10 @@ public class RoomDao extends GenericDaoImpl<Room, Long>{
 	  public List<Room> getAll() {
 	    return getEntityManager().createQuery("from Room").getResultList();
 	  }
+
+	@Override
+	public Room find(String identity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

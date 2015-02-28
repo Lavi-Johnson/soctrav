@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -93,7 +96,7 @@ public class UserController {
   /**
    * Retrieve the id for the user with the passed email address.
    */
-  @RequestMapping(value="/get-by-email/user")
+  @RequestMapping(value="/getByEmail/user")
   @ResponseBody
   public String getByEmail(@RequestHeader(value="email") String email) {
     String userId;
@@ -112,8 +115,7 @@ public class UserController {
    */
   @RequestMapping(value="/update/user")
   @ResponseBody
-  //@RequestBody BookCase bookCase
-  public String updateName(@RequestHeader(value="id") long id, @RequestHeader(value="email") String email) {
+  public String updateUser(@RequestHeader(value="id") long id, @RequestHeader(value="email") String email) {
 	try {
       User user = bus.find(id);
       user.setUser_email(email);
@@ -127,7 +129,21 @@ public class UserController {
     return "User succesfully updated!";
   }
   
-	@RequestMapping("/senduser")
+  @RequestMapping(value="/find/users")
+  @ResponseBody
+  public List<User> findUsers(@RequestParam("name") String name) {
+    LOGGER.info(name);
+    List<User> users=null;
+	try {
+		users=bus.findByName(name);
+	}catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+    return users;
+  }
+  
+	@RequestMapping("/send/user")
 	public @ResponseBody User jsonParse(HttpServletRequest request) {
 		User user=new User();
 		try {

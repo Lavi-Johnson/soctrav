@@ -3,6 +3,8 @@ package com.yanni.sotrav.services.User;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
@@ -11,7 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.yanni.sotrav.common.ServiceBeanMapper;
 import com.yanni.sotrav.configs.security.UserRepository;
+import com.yanni.sotrav.manager.DataManager;
 import com.yanni.sotrav.manager.UserManager;
 import com.yanni.sotrav.models.User;
 
@@ -21,14 +25,20 @@ public class BaseUserService implements org.springframework.security.core.userde
 	
 	@Autowired
 	@Qualifier("userManagerBean")
-	protected UserManager _userManager;
+	protected DataManager _userManager;
 	
-	public User find(long id){
-		return _userManager.find(id);
+	public User find(Long id){
+		return (User) _userManager.find(id);
+	}
+	
+	public Object create(HttpServletRequest request) {
+		User usr=new User();
+		ServiceBeanMapper.mapBean(usr, request);
+		return _userManager.create(usr);
 	}
 	
 	public User find(String email){
-		return _userManager.find(email);
+		return (User) _userManager.find(email);
 	}
 	
 	public void Update(User usr){
@@ -41,6 +51,10 @@ public class BaseUserService implements org.springframework.security.core.userde
 	
 	public List<User> findAll(){
 		return _userManager.findAll();
+	}
+
+	public List<User> findByName(String name) {
+		return _userManager.findByCriteria(name);
 	}
 	
 	@Autowired
