@@ -1,4 +1,4 @@
-package com.yanni.sotrav.dao;
+package com.yanni.sotrav.dao.abstracts;
 
 import java.io.Serializable;
 

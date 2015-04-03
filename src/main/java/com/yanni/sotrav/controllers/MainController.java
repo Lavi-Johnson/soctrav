@@ -107,57 +107,57 @@ public class MainController {
 		return msg;
 	}
 
-	@RequestMapping(value = "/create/location")
-	@ResponseBody
-	public String createLocation() {
-		try {
-			Location location = new Location();
-			location.setCity("Atlanta");
-			location.setCountry("US");
-			location.setJoined_dt(new Date());
-			location.setLast_updated(new Date());
-			location.setLocation_name("Be Hostel");
-			location.setProvince_name("Ga");
-			location.setStatus(1);
-			location.setUnjoined_dt(null);
-			location.setZipcode("30324");
-			dao.saveOrUpdate(location);
-		} catch (Exception ex) {
-			return "Error creating the user: " + ex.toString();
-		}
-		return "User succesfully created!";
-	}
+//	@RequestMapping(value = "/create/location")
+//	@ResponseBody
+//	public String createLocation() {
+//		try {
+//			Location location = new Location();
+//			location.setCity("Atlanta");
+//			location.setCountry("US");
+//			location.setJoined_dt(new Date());
+//			location.setLast_updated(new Date());
+//			location.setLocation_name("Be Hostel");
+//			location.setProvince_name("Ga");
+//			location.setStatus(1);
+//			location.setUnjoined_dt(null);
+//			location.setZipcode("30324");
+//			dao.saveOrUpdate(location);
+//		} catch (Exception ex) {
+//			return "Error creating the user: " + ex.toString();
+//		}
+//		return "User succesfully created!";
+//	}
 
-	@RequestMapping(value = "/create/message")
-	@ResponseBody
-	public String createMsg() {
-		try {
-			Message msg = new Message();
-			msg.setMessage("Hello goodbye!");
-			msg.setRoom_id(1);
-			msg.setUpdate_dt(new Date());
-			msg.setUser_id(1);
-			dao.saveOrUpdate(msg);
-		} catch (Exception ex) {
-			return "Error creating the user: " + ex.toString();
-		}
-		return "User succesfully created!";
-	}
+//	@RequestMapping(value = "/create/message")
+//	@ResponseBody
+//	public String createMsg() {
+//		try {
+//			Message msg = new Message();
+//			msg.setMessage("Hello goodbye!");
+//			msg.setRoom_id(1);
+//			msg.setUpdate_dt(new Date());
+//			msg.setUser_id(1);
+//			dao.saveOrUpdate(msg);
+//		} catch (Exception ex) {
+//			return "Error creating the user: " + ex.toString();
+//		}
+//		return "User succesfully created!";
+//	}
 
-	@RequestMapping(value = "/create/room")
-	@ResponseBody
-	public String createRoom() {
-		try {
-			Room room = new Room();
-			room.setLocation_id(1);
-			room.setRoom_name("nice_room");
-			room.setUpdate_dt(new Date());
-			dao.saveOrUpdate(room);
-		} catch (Exception ex) {
-			return "Error creating the user: " + ex.toString();
-		}
-		return "User succesfully created!";
-	}
+//	@RequestMapping(value = "/create/room")
+//	@ResponseBody
+//	public String createRoom() {
+//		try {
+//			Room room = new Room();
+//			room.setLocation_id(1);
+//			room.setRoom_name("nice_room");
+//			room.setUpdate_dt(new Date());
+//			dao.saveOrUpdate(room);
+//		} catch (Exception ex) {
+//			return "Error creating the user: " + ex.toString();
+//		}
+//		return "User succesfully created!";
+//	}
 
 	@RequestMapping(value = "/test")
 	@ResponseBody
@@ -166,7 +166,7 @@ public class MainController {
 				.getBean("baseUserService");
 		User usr = new User();
 		try {
-			usr = bus.find((long) 1);
+			usr = (User) bus.find((long) 1);
 		} catch (Exception ex) {
 			LOGGER.error("problem finding user", ex);
 		}
@@ -193,7 +193,7 @@ public class MainController {
 	@RequestMapping("nav/admin.html")
 	public ModelAndView admin() {
 		LOGGER.debug("Received request to get user list view");
-		return new ModelAndView("admin");
+		return new ModelAndView("user");
 	}
 
 	@RequestMapping("/login.html")
@@ -219,10 +219,7 @@ public class MainController {
 	public ModelAndView forbidden(HttpServletRequest r) {
 		LOGGER.debug("Received request to get user list view");
 		ModelMap model = new ModelMap();
-		model.put(
-				"url",
-				r.getRequestURL().toString()
-						.replaceFirst("/forbidden.html", "/login.html"));
+		model.put("url",r.getRequestURL().toString().replaceFirst("/forbidden.html", "/login.html"));
 		return new ModelAndView("error", model);
 	}
 

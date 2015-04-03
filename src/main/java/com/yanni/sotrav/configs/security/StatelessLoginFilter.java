@@ -7,6 +7,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -75,6 +76,8 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 		User usr=(User)authentication.getPrincipal();
 		final User authenticatedUser = (User) userService.loadUserByUsername(usr.getUser_email());
 		final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
+		HttpSession session=request.getSession();
+		session.setAttribute("userLogin", usr);
 
 		// Add the custom token as HTTP header to the response
 		tokenAuthenticationService.addAuthentication(response, userAuthentication);

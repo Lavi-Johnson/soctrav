@@ -65,12 +65,12 @@ public class UserController {
 	  String processedMsg = (String) webservice.process(request);//userManager.setAndCreateUser(email, name);
 	  ModelMap modelMap=new ModelMap();
 	  modelMap.put("processedMsg", processedMsg);
-	  return new ModelAndView("admin", modelMap);
+	  return new ModelAndView("user", modelMap);
   }
   
   @RequestMapping(method=RequestMethod.GET, value="/find/user")//{id} //produces = { "application/json", "application/xml" } or you can headers = "Accept=application/json"
   public @ResponseBody User find(/*@PathVariable("id")*/ @RequestHeader(value="id") Long id) {
-	User newUser=bus.find(id);
+	User newUser=(User) bus.find(id);
     if (newUser==null){
     	throw new ResourceNotFoundException();
     }
@@ -84,7 +84,7 @@ public class UserController {
   @ResponseBody
   public String delete(@RequestHeader(value="id") Long id) {
     try {
-      User user=bus.find(id);
+      User user=(User) bus.find(id);
       bus.delete(user);
     }
     catch (Exception ex) {
@@ -117,7 +117,7 @@ public class UserController {
   @ResponseBody
   public String updateUser(@RequestHeader(value="id") long id, @RequestHeader(value="email") String email) {
 	try {
-      User user = bus.find(id);
+      User user = (User) bus.find(id);
       user.setUser_email(email);
       System.out.println(user);
       LOGGER.info(email);

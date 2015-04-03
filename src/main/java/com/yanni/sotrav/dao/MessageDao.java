@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
+import com.yanni.sotrav.dao.abstracts.GenericDaoImpl;
+import com.yanni.sotrav.dao.abstracts.IMessageDao;
 import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.User;
 

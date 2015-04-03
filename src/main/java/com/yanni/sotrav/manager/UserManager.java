@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.yanni.sotrav.dao.IUserDao;
 import com.yanni.sotrav.dao.UserDao;
+import com.yanni.sotrav.dao.abstracts.IUserDao;
 import com.yanni.sotrav.models.User;
 
 @Component("userManagerBean")

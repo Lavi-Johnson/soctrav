@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yanni.sotrav.common.ApplicationBeanFactory;
 import com.yanni.sotrav.common.JsonConfigLoader;
+import com.yanni.sotrav.models.Location;
 import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.IWebService;
@@ -39,16 +40,8 @@ public class MessageController {
 	@RequestMapping(value = "/send/msg")
 	@ResponseBody
 	public Message create(HttpServletRequest request) { 
-		Message msg=new Message();
-		try {
-			msg=JsonConfigLoader.load(request.getInputStream(), Message.class);
-			LOGGER.info("Debugg mofo!!! "+msg.getMessage());
-			bms.create(msg);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			msg=null;
-		}
+		IWebService createMsgService=(IWebService) factorybean.getBean("createMessageService");
+		Message msg=(Message)createMsgService.process(request);
 		return msg;
 	}
 

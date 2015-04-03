@@ -7,6 +7,7 @@ import java.util.Collection;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,8 @@ public class TokenAuthenticationService {
 		if (token != null) {
 			final User user = tokenHandler.parseUserFromToken(token);
 			if (user != null) {
+				HttpSession session=request.getSession();
+				session.setAttribute("userLogin", user);
 				return new UserAuthentication(user);
 			}
 		}

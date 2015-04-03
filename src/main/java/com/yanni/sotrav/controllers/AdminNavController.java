@@ -1,0 +1,33 @@
+package com.yanni.sotrav.controllers;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * Class UserController
+ */
+@Controller
+public class AdminNavController {
+	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(MainController.class);
+	
+	@RequestMapping("nav/room.html")
+	public ModelAndView logout(HttpServletResponse response) {
+		LOGGER.debug("Received request to get user list view");
+		return new ModelAndView("room");
+	}
+	
+	@RequestMapping("nav/user.html")
+	public ModelAndView admin() {
+		LOGGER.debug("Received request to get user list view");
+		return new ModelAndView("user");
+	}
+
+}

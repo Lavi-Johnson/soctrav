@@ -161,8 +161,11 @@
                     <li>
                         <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
                     </li>
+                    <li>
+                        <a href="/nav/user.html"><i class="fa fa-fw fa-edit"></i>User Generation</a>
+                    </li>
                     <li class="active">
-                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i>User Generation</a>
+                        <a href="/nav/room.html"><i class="fa fa-fw fa-edit"></i>Room Generation</a>
                     </li>
                     <li>
                         <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
@@ -202,7 +205,7 @@
                         <h1 class="page-header">
                         	<c:choose>
       							<c:when test="${empty processedMsg}">
-      								New User
+      								New Chat Room
       							</c:when>
       							<c:otherwise>
       								${processedMsg}
@@ -224,43 +227,38 @@
                 <div class="row">
                     <div class="col-lg-6">
 
-                        <form role="form" action="../create/user" method="post" name="loginform">
+                        <form role="form" action="../create/chatroom" method="post" name="loginform">
 
                             <div class="form-group">
-                                <label>User Name</label>
-                                <input class="form-control" placeholder="Enter text" name="user_name" id="user_name">
+                                <label>Chat Room Name</label>
+                                <input class="form-control" placeholder="Enter text" name="room_name" id="room_name">
                             </div>
                             
                             <div class="form-group">
-                                <label>Password</label>
-                                <input class="form-control" placeholder="Enter text" name="user_pass" id="user_pass">
+                                <label>Hostel Name</label>
+                                <input class="form-control" placeholder="Enter text" name="location_name" id="location_name">
                             </div>
                             
                            <div class="form-group">
-                                <label>First Name</label>
-                                <input class="form-control" placeholder="Enter text" name="first_name" id="first_name">
+                                <label>City</label>
+                                <input class="form-control" placeholder="Enter text" name="city" id="city">
                             </div>
                             
                            <div class="form-group">
-                                <label>Last Name</label>
-                                <input class="form-control" placeholder="Enter text" name="last_name" id="last_name">
+                                <label>Province</label>
+                                <input class="form-control" placeholder="Enter text" name="province_name" id="province_name">
                             </div>
                             
                            <div class="form-group">
-                                <label>User Email</label>
-                                <input class="form-control" placeholder="Enter text" name="user_email" id="user_email">
+                                <label>Country</label>
+                                <input class="form-control" placeholder="Enter text" name="country" id="country">
                             </div>
                             
                            <div class="form-group">
-                                <label>Display Name</label>
-                                <input class="form-control" placeholder="Enter text" name="alias" id="alias">
+                                <label>Zip Code</label>
+                                <input class="form-control" placeholder="Enter text" name="zipcode" id="zipcode">
                             </div>
                             
-                            <div class="checkbox">
-    							<label>
-                                     <input value="2" name="user_type_id" id="user_type_id" type="checkbox">admin
-                                </label>
-							</div>
 
                             <button type="submit" class="btn btn-default">Submit Button</button>
                             <button type="reset" class="btn btn-default">Reset Button</button>

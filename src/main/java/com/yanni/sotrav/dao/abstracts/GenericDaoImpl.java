@@ -1,12 +1,18 @@
-package com.yanni.sotrav.dao;
+package com.yanni.sotrav.dao.abstracts;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Repository;
+
+import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.User;
+
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

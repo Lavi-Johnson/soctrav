@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.yanni.sotrav.dao.IMessageDao;
 import com.yanni.sotrav.dao.MessageDao;
+import com.yanni.sotrav.dao.abstracts.IMessageDao;
 import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.User;
 
