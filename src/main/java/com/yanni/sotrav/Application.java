@@ -34,7 +34,7 @@ public class Application extends SpringBootServletInitializer{
         return new EmbeddedServletContainerCustomizer() {
             @Override
             public void customize(ConfigurableEmbeddedServletContainer container) {
-                container.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/forbidden.html"));
+                container.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/nav/forbidden.html"));
             }
    };
 }

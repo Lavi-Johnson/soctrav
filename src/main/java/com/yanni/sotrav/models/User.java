@@ -233,7 +233,12 @@ public class User implements UserDetails{
 		// TODO Auto-generated method stub
 		Set<UserAuthority> authorities= new HashSet<UserAuthority>();
 		if(user_type_id!=null && user_type_id!=0){
-			grantRole(authorities, user_type_id==2 ? UserRole.ADMIN : UserRole.USER);
+			if(user_type_id==2 || user_type_id==1){
+				grantRole(authorities, UserRole.ADMIN);
+				grantRole(authorities, UserRole.USER);
+			}else{
+				grantRole(authorities, UserRole.USER);
+			}
 		}
 		return authorities;
 	}

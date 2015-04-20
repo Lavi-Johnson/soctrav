@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.yanni.sotrav.common.SharedConstants;
+import com.yanni.sotrav.models.UserRole;
 import com.yanni.sotrav.services.token.TokenAuthenticationService;
 
 @Configuration
@@ -58,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				//.antMatchers(HttpMethod.GET, "/api/**").permitAll()
 				
 				//defined Admin only API area
-				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/admin/**").hasRole(UserRole.ADMIN.toString())
 				
 				//all other request need to be authenticated
 				.anyRequest().authenticated().and()			

@@ -9,25 +9,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
+import com.yanni.sotrav.common.SharedConstants;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.models.UserAuthentication;
-import com.yanni.sotrav.services.User.BaseUserService;
 import com.yanni.sotrav.services.token.TokenAuthenticationService;
 
 class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private final TokenAuthenticationService tokenAuthenticationService;
 	private final UserDetailsService userService;
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(StatelessLoginFilter.class);
 
 	protected StatelessLoginFilter(String urlMapping, TokenAuthenticationService tokenAuthenticationService,
 			UserDetailsService uService, AuthenticationManager authManager) {
@@ -77,11 +79,11 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 		final User authenticatedUser = (User) userService.loadUserByUsername(usr.getUser_email());
 		final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
 		HttpSession session=request.getSession();
-		session.setAttribute("userLogin", usr);
+		if(session.getAttribute(SharedConstants.USER_LOGIN)==null)
+			session.setAttribute(SharedConstants.USER_LOGIN, usr);
 
 		// Add the custom token as HTTP header to the response
 		tokenAuthenticationService.addAuthentication(response, userAuthentication);
-
 		// Add the authentication to the Security context
 		SecurityContextHolder.getContext().setAuthentication(userAuthentication);
 		if(request.getParameter("client")!=null || request.getHeader("client")!=null){

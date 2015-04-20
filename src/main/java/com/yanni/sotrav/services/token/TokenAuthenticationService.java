@@ -1,9 +1,6 @@
 package com.yanni.sotrav.services.token;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.yanni.sotrav.common.SharedConstants;
 import com.yanni.sotrav.common.TokenHandler;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.models.UserAuthentication;
@@ -69,9 +67,10 @@ public class TokenAuthenticationService {
 		final String token =chkTok;
 		if (token != null) {
 			final User user = tokenHandler.parseUserFromToken(token);
+			HttpSession session=request.getSession();
+			if(session.getAttribute(SharedConstants.USER_LOGIN)==null && user!=null)
+				session.setAttribute(SharedConstants.USER_LOGIN, user);
 			if (user != null) {
-				HttpSession session=request.getSession();
-				session.setAttribute("userLogin", user);
 				return new UserAuthentication(user);
 			}
 		}

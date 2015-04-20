@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yanni.sotrav.common.ApplicationBeanFactory;
 import com.yanni.sotrav.common.JsonConfigLoader;
+import com.yanni.sotrav.common.SharedConstants;
 import com.yanni.sotrav.models.Location;
 import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.Room;
@@ -40,10 +41,17 @@ public class RoomController {
 	public ModelAndView logout(HttpServletRequest request) {
 		IWebService createRoomService=(IWebService) factorybean.getBean("createRoomService");
 		IWebService createLocationService=(IWebService) factorybean.getBean("createLocationService");
-		//room.setUser_id(user_id);
-		Location loc=(Location)createLocationService.process(request);
-		request.setAttribute("_location", loc);
-		String processedMsg=(String) createRoomService.process(request);
+		BaseService baseLocationService=(BaseService) factorybean.getBean("baseLocationService");
+		String processedMsg="";
+		Location loc=null;
+		loc=(Location)createLocationService.process(request);
+		try{
+			request.setAttribute("_location", loc);
+			processedMsg=(String) createRoomService.process(request);
+		}catch(Exception e){
+			LOGGER.error("deleting the location", e);
+			baseLocationService.delete(loc);
+		}
 		ModelMap modelMap=new ModelMap();
 		modelMap.put("processedMsg", processedMsg);
 		return new ModelAndView("room", modelMap);

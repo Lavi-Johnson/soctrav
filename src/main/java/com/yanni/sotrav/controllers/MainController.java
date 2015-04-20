@@ -8,6 +8,7 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -206,10 +207,18 @@ public class MainController {
 	}
 
 	@RequestMapping("/logout")
-	public ModelAndView logout(HttpServletResponse response) {
-		javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie(
-				"X-AUTH-Cookie-Tok_" + System.currentTimeMillis(), "");
-		response.addCookie(cookie);
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+//		javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie(
+//				"X-AUTH-Cookie-Tok_" + System.currentTimeMillis(), "");
+		Cookie[] cookies = request.getCookies();
+        for(int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().contains("X-AUTH-Cookie-Tok_")) {
+             cookies[i].setMaxAge(0);
+             cookies[i].setValue("");
+             response.addCookie(cookies[i]);
+             break;
+            }
+        }
 		ModelMap model = new ModelMap();
 		model.put("message", "logged out");
 		return new ModelAndView("logout", model);

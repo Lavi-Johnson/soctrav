@@ -2,28 +2,26 @@ package com.yanni.sotrav.services.User;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 import com.yanni.sotrav.common.ServiceBeanMapper;
-import com.yanni.sotrav.configs.security.UserRepository;
 import com.yanni.sotrav.manager.DataManager;
-import com.yanni.sotrav.manager.UserManager;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.BaseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component("baseUserService")
 @Service
 public class BaseUserService implements org.springframework.security.core.userdetails.UserDetailsService, BaseService{
+	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(BaseUserService.class);
 	
 	@Autowired
 	@Qualifier("userManagerBean")
@@ -47,8 +45,8 @@ public class BaseUserService implements org.springframework.security.core.userde
 		return _userManager.findByCriteria(name);
 	}
 	
-	@Autowired
-	private UserRepository userRepo;
+//	@Autowired
+//	private UserRepository userRepo;
 
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 
@@ -60,6 +58,20 @@ public class BaseUserService implements org.springframework.security.core.userde
 		detailsChecker.check(usr);
 		return usr;
 	}
+	
+//	public List<GrantedAuthority> getAuthorities(User user) {
+//	    List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
+//		if(user.getUser_type_id()== SharedConstants.SUPER_TYPE || user.getUser_type_id()==SharedConstants.ADMIN_TYPE){
+//			authList.add(new SimpleGrantedAuthority(SharedConstants.ADMIN));
+//			authList.add(new SimpleGrantedAuthority(SharedConstants.USER));
+//		}
+//		else{
+//			authList.add(new SimpleGrantedAuthority(SharedConstants.USER));
+//		}
+//
+//	    System.out.println(authList);
+//	    return authList;
+//	}
 
 	@Override
 	public Object find(Serializable id) {
