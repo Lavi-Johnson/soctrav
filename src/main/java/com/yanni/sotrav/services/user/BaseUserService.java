@@ -1,4 +1,4 @@
-package com.yanni.sotrav.services.User;
+package com.yanni.sotrav.services.user;
 
 import java.io.Serializable;
 import java.util.List;
@@ -103,7 +103,7 @@ public class BaseUserService implements org.springframework.security.core.userde
 	}
 
 	@Override
-	public List findByCriteria(String name) {
+	public List findByCriteria(Object name) {
 		// TODO Auto-generated method stub
 		return null;
 	}

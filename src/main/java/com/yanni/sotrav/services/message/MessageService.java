@@ -1,4 +1,4 @@
-package com.yanni.sotrav.services.Message;
+package com.yanni.sotrav.services.message;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,9 +13,9 @@ import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.IWebService;
 
-@Component("createMessageService")
+@Component("messageService")
 @Service
-public class CreateMessageService implements IWebService{
+public class MessageService implements IWebService{
 	
 	@Autowired
 	@Qualifier("messageManagerBean")

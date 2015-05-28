@@ -1,4 +1,4 @@
-package com.yanni.sotrav.services.User;
+package com.yanni.sotrav.services.user;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -15,8 +15,8 @@ import com.yanni.sotrav.manager.UserManager;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.IWebService;
 
-@Component("createUserService")
-public class CreateUserService implements IWebService{
+@Component("userService")
+public class UserService implements IWebService{
 	
 	@Autowired
 	@Qualifier("userManagerBean")

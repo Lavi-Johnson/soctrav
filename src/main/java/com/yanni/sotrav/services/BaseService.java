@@ -16,12 +16,12 @@ public interface BaseService <T, I extends Serializable>{
 	
 	public T find(Object obj);
 	
-	public void Update(T usr);
+	public void Update(T obj);
 	
-	public void delete(T usr);
+	public void delete(T obj);
 	
-	public List<User> findAll();
+	public List<T> findAll();
 
-	public List<User> findByCriteria(String name);
+	public List<T> findByCriteria(Object crit);
 
 }

@@ -1,4 +1,4 @@
-package com.yanni.sotrav.services.Message;
+package com.yanni.sotrav.services.message;
 
 import java.io.Serializable;
 import java.util.List;
