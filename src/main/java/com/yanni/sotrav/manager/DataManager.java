@@ -19,7 +19,7 @@ public interface DataManager<T, I extends Serializable> {
 	
 	public List<T> findAll();
 	
-	public List<T> findByCriteria(String c);
+	public List<T> findByCriteria(Object c);
 	
 	public void update(T obj);
 	

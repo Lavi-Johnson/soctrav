@@ -19,12 +19,7 @@ public class UserManager implements DataManager<User, Long>{
 	
 	@Override
 	public String create(User usr){
-	    try {
-			_userDao.saveOrUpdate(usr);
-	    }
-	    catch (Exception ex) {
-	      return "Error creating the user: " + ex.toString();
-	    }
+		_userDao.saveOrUpdate(usr);
 	    return "User succesfully created!";//+ "new user is: "+newUser.toString()+" f_name: "+newUser.getFirst_name();
 	}
 	
@@ -54,7 +49,7 @@ public class UserManager implements DataManager<User, Long>{
 	}
 	
 	@Override
-	public ArrayList<User> findByCriteria(String name){
+	public ArrayList<User> findByCriteria(Object name){
 		return null;//_userDao.getUsersByName(name);
 	}
 

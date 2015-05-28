@@ -21,12 +21,7 @@ public class MessageManager implements DataManager<Message, Long>{
 	
 	@Override
 	public String create(Message msg){
-	    try {
-	    	msgDao.saveOrUpdate(msg);
-	    }
-	    catch (Exception ex) {
-	      return "Error creating the user: " + ex.toString();
-	    }
+	    msgDao.saveOrUpdate(msg);
 	    return "Message succesfully created!";//+ "new user is: "+newUser.toString()+" f_name: "+newUser.getFirst_name();
 	}
 	
@@ -52,8 +47,8 @@ public class MessageManager implements DataManager<Message, Long>{
 	}
 
 	@Override
-	public List<Message> findByCriteria(String msg) {
-		return msgDao.getMsgsByMsg(msg);
+	public List<Message> findByCriteria(Object msg) {
+		return msgDao.getMsgsByMsg((String)msg);
 	}
 
 	@Override

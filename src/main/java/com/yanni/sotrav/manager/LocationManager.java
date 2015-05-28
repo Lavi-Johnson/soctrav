@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import com.yanni.sotrav.dao.LocationDao;
 import com.yanni.sotrav.dao.abstracts.ILocationDao;
 import com.yanni.sotrav.models.Location;
+import com.yanni.sotrav.models.Room;
+import com.yanni.sotrav.models.User;
 
 
 @Component("locationManagerBean")
@@ -20,13 +22,7 @@ public class LocationManager implements DataManager<Location, Long>{
 
 	@Override
 	public String create(Location loc) {
-		// TODO Auto-generated method stub
-	    try {
-	    	locDao.saveOrUpdate(loc);
-	    }
-	    catch (Exception ex) {
-	      return "Error creating the location: " + ex.toString();
-	    }
+	    locDao.saveOrUpdate(loc);
 	    return "Location succesfully created!";
 	}
 
@@ -60,9 +56,13 @@ public class LocationManager implements DataManager<Location, Long>{
 	}
 
 	@Override
-	public List<Location> findByCriteria(String c) {
+	public List<Location> findByCriteria(Object c) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Location> locs=null;
+		if(c instanceof User){
+			locs=locDao.findAllUserLocation((User)c);
+		}
+		return locs;
 	}
 
 	@Override
