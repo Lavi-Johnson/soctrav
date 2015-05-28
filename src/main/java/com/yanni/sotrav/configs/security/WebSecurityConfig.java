@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,8 +14,6 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.yanni.sotrav.common.SharedConstants;
 import com.yanni.sotrav.models.UserRole;
 import com.yanni.sotrav.services.token.TokenAuthenticationService;
 
@@ -26,6 +23,7 @@ import com.yanni.sotrav.services.token.TokenAuthenticationService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
+	@Qualifier("baseUserService")
 	private UserDetailsService baseUserService;
 
 	@Autowired
