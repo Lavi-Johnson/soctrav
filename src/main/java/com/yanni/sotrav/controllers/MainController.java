@@ -26,12 +26,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yanni.sotrav.common.ApplicationBeanFactory;
 import com.yanni.sotrav.common.JsonConfigLoader;
+import com.yanni.sotrav.common.SharedConstants;
 import com.yanni.sotrav.dao.Dao;
 import com.yanni.sotrav.models.Location;
 import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.Room;
 import com.yanni.sotrav.models.User;
-import com.yanni.sotrav.services.User.BaseUserService;
+import com.yanni.sotrav.services.token.TokenAuthenticationService;
+import com.yanni.sotrav.services.user.BaseUserService;
 
 @Controller
 public class MainController {
@@ -210,15 +212,8 @@ public class MainController {
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
 //		javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie(
 //				"X-AUTH-Cookie-Tok_" + System.currentTimeMillis(), "");
-		Cookie[] cookies = request.getCookies();
-        for(int i = 0; i < cookies.length; i++) {
-            if (cookies[i].getName().contains("X-AUTH-Cookie-Tok_")) {
-             cookies[i].setMaxAge(0);
-             cookies[i].setValue("");
-             response.addCookie(cookies[i]);
-             break;
-            }
-        }
+		TokenAuthenticationService.deleteCookie(request, response);
+		request.getSession().invalidate();
 		ModelMap model = new ModelMap();
 		model.put("message", "logged out");
 		return new ModelAndView("logout", model);
