@@ -19,6 +19,7 @@ import com.yanni.sotrav.common.SharedConstants;
 import com.yanni.sotrav.models.Location;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.location.ILocationService;
+import java.util.Set;
 
 /**
  * Class UserController
@@ -47,7 +48,7 @@ public class AdminNavController {
 		LOGGER.info("is this a admin???"+request.isUserInRole("ROLE_"+SharedConstants.ADMIN.toString()));
 		ModelMap modelMap=new ModelMap();
 		User usr=(User)request.getSession().getAttribute("userLogin");
-		List<Location> locs=locServ.getUserLocations(usr);
+		Set<Location> locs=locServ.getUserLocations(usr);
 		modelMap.put("usrName", usr.getUser_email());
 		modelMap.put("locations", locs);
 		return new ModelAndView("user", modelMap);
