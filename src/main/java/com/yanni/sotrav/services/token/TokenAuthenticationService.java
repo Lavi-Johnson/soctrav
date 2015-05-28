@@ -31,7 +31,8 @@ public class TokenAuthenticationService {
 		tokenHandler = new TokenHandler(DatatypeConverter.parseBase64Binary(secret));
 	}
 
-	public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) throws IOException {
+	public void addAuthentication(HttpServletRequest request, HttpServletResponse response, UserAuthentication authentication) throws IOException {
+		deleteCookie(request, response);
 		final User user = authentication.getDetails();
 		user.setExpires(System.currentTimeMillis() + TEN_DAYS);
 		String token=tokenHandler.createTokenForUser(user);
@@ -75,5 +76,33 @@ public class TokenAuthenticationService {
 			}
 		}
 		return null;
+	}
+	
+	public static boolean isCookieExist (HttpServletRequest request){
+		Cookie[] cookies=request.getCookies();
+		boolean exist=false;
+		if(cookies!=null){
+			for (int i=0;i<cookies.length;i++) {
+				Cookie co=cookies[i];
+				if(co.getName().contains(AUTH_Cookie_NAME)){
+					exist=true;
+					break;
+				}
+			}
+		}
+		return exist;
+	}
+	
+	public static void deleteCookie(HttpServletRequest request, HttpServletResponse response){
+		Cookie[] cookies = request.getCookies();
+		if(cookies==null)return;
+        for(int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().contains("X-AUTH-Cookie-Tok_")) {
+             cookies[i].setMaxAge(0);
+             cookies[i].setValue("");
+             response.addCookie(cookies[i]);
+             break;
+            }
+        }
 	}
 }
