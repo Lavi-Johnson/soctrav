@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -24,9 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yanni.sotrav.exceptions.ResourceNotFoundException;
+import com.yanni.sotrav.models.Room;
+import com.yanni.sotrav.models.RoomUser;
 import com.yanni.sotrav.models.User;
+import com.yanni.sotrav.services.BaseService;
 import com.yanni.sotrav.services.IWebService;
-import com.yanni.sotrav.services.User.BaseUserService;
+import com.yanni.sotrav.services.room.IRoomService;
+import com.yanni.sotrav.services.user.BaseUserService;
 import com.yanni.sotrav.common.ApplicationBeanFactory;
 import com.yanni.sotrav.common.JsonConfigLoader;
 /**
@@ -61,8 +64,15 @@ public class UserController {
   @RequestMapping(value="/create/user")
   @ResponseBody
   public ModelAndView create(HttpServletRequest request){ // (@RequestHeader(value="email") String email, @RequestHeader(value="name") String name) {
-	  IWebService webservice=(IWebService) factorybean.getBean("createUserService");
+	  IWebService webservice=(IWebService) factorybean.getBean("userService");
+	  User usr=(User)request.getSession().getAttribute("userLogin");
+	  IRoomService roomServ=(IRoomService) factorybean.getBean("roomService");
+	  BaseService roomUsrServ=(BaseService) factorybean.getBean("baseRoomUserService");
+	  String locid=request.getParameter("location_id");
+	  Room r=roomServ.getFirstRoom(Long.parseLong(locid), usr.getId());
+	  String status=(String)roomUsrServ.create(new RoomUser(r.getId(), usr.getId(), 1));
 	  String processedMsg = (String) webservice.process(request);//userManager.setAndCreateUser(email, name);
+	  //IWebService webservice=(IWebService) factorybean.getBean("userService");
 	  ModelMap modelMap=new ModelMap();
 	  modelMap.put("processedMsg", processedMsg);
 	  return new ModelAndView("user", modelMap);
