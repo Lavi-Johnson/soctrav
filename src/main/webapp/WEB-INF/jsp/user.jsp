@@ -100,6 +100,15 @@
                                 <input class="form-control" placeholder="Enter text" name="alias" id="alias">
                             </div>
                             
+                            <div class="form-group">
+    							<label>Location</label></br>
+                                     <select name="location_id" id="location_id">
+                                     	<c:forEach var="location" items="${locations}">
+                                     		<option value="${location.id}">${location.location_name}</option>
+                                     	</c:forEach>
+                                     </select>
+							</div>
+                            
                             <div class="checkbox">
     							<label>
                                      <input value="2" name="user_type_id" id="user_type_id" type="checkbox">admin
