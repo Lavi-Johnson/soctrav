@@ -38,9 +38,9 @@ public class RoomController {
 	
 	@RequestMapping("create/chatroom")
 	@ResponseBody
-	public ModelAndView logout(HttpServletRequest request) {
-		IWebService createRoomService=(IWebService) factorybean.getBean("createRoomService");
-		IWebService createLocationService=(IWebService) factorybean.getBean("createLocationService");
+	public ModelAndView createChatRoom(HttpServletRequest request) {
+		IWebService createRoomService=(IWebService) factorybean.getBean("roomService");
+		IWebService createLocationService=(IWebService) factorybean.getBean("locationService");
 		BaseService baseLocationService=(BaseService) factorybean.getBean("baseLocationService");
 		String processedMsg="";
 		Location loc=null;

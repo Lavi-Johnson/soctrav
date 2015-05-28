@@ -20,8 +20,8 @@ import com.yanni.sotrav.models.Location;
 import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.IWebService;
-import com.yanni.sotrav.services.Message.BaseMessageService;
-import com.yanni.sotrav.services.User.BaseUserService;
+import com.yanni.sotrav.services.message.BaseMessageService;
+import com.yanni.sotrav.services.user.BaseUserService;
 
 @Controller
 public class MessageController {
@@ -40,7 +40,7 @@ public class MessageController {
 	@RequestMapping(value = "/send/msg")
 	@ResponseBody
 	public Message create(HttpServletRequest request) { 
-		IWebService createMsgService=(IWebService) factorybean.getBean("createMessageService");
+		IWebService createMsgService=(IWebService) factorybean.getBean("messageService");
 		Message msg=(Message)createMsgService.process(request);
 		return msg;
 	}
