@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,9 +25,13 @@ public class Room {
 		  
 	@Column(name = "room_name", nullable = false, length=50)
 	private String room_name;
-		  
+	
 	@Column(name="location_id", nullable = false)
 	private long location_id;
+		  
+	@ManyToOne
+    @JoinColumn(name="location_id", insertable=false, updatable=false)
+	private Location location;
 		
 	@Column(name = "update_dt", nullable = false)
 	private Date update_dt;
@@ -56,12 +63,12 @@ public class Room {
 		this.room_name = room_name;
 	}
 
-	public long getLocation_id() {
-		return location_id;
+	public Location getLocation() {
+		return location;
 	}
 
-	public void setLocation_id(long location_id) {
-		this.location_id = location_id;
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	public Date getUpdate_dt() {

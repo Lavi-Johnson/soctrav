@@ -1,12 +1,17 @@
 package com.yanni.sotrav.models;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,7 +55,19 @@ public class Location {
 		@Temporal(TemporalType.TIMESTAMP)
 		@Column(name="update_dt", nullable = false)
 		private Date update_dt;
+		
+		@OneToMany
+	    @JoinColumn(name="location_id")
+	    private Set<Room> rooms;
 		  
+		public Set<Room> getRooms() {
+			return rooms;
+		}
+
+		public void setRooms(Set<Room> rooms) {
+			this.rooms = rooms;
+		}
+
 		public long getId() {
 			return id;
 		}
