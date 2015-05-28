@@ -9,11 +9,13 @@ import org.springframework.stereotype.Component;
 import com.yanni.sotrav.dao.LocationDao;
 import com.yanni.sotrav.dao.RoomDao;
 import com.yanni.sotrav.dao.abstracts.IRoomDao;
+import com.yanni.sotrav.models.Location;
 import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.Room;
+import com.yanni.sotrav.models.User;
 
 @Component("roomManagerBean")
-public class RoomManager implements DataManager<Room, Long>{
+public class RoomManager implements DataManager<Room, Long>, IRoomManager{
 	
 	@Autowired
 	@Qualifier("roomDao") //need to declare the dao as a interface or else will get illegal argument exception
@@ -21,12 +23,7 @@ public class RoomManager implements DataManager<Room, Long>{
 
 	@Override
 	public String create(Room room) {
-	    try {
-	    	roomDao.saveOrUpdate(room);
-	    }
-	    catch (Exception ex) {
-	      return "Error creating the room: " + ex.toString();
-	    }
+	    roomDao.saveOrUpdate(room);
 	    return "room succesfully created!";
 	}
 
@@ -55,20 +52,29 @@ public class RoomManager implements DataManager<Room, Long>{
 	}
 
 	@Override
-	public List<Room> findByCriteria(String c) {
+	public List<Room> findByCriteria(Object c) {
 		// TODO Auto-generated method stub
-		return roomDao.getAll();
+		List<Room> rs=null;
+		if(c instanceof User){
+			rs=roomDao.findAllUserRoom((User)c);
+		}
+		return rs;
 	}
 
 	@Override
-	public void update(Room obj) {
-		roomDao.saveOrUpdate(obj);
+	public void update(Room room) {
+		roomDao.saveOrUpdate(room);
 		
 	}
 
 	@Override
-	public void delete(Room obj) {
-		roomDao.delete(obj);
+	public void delete(Room room) {
+		roomDao.delete(room);
+	}
+
+	@Override
+	public Room getFirstRoom(Long l, Long u) {
+		return roomDao.findFirstRoom(u, l);
 	}
 
 }
