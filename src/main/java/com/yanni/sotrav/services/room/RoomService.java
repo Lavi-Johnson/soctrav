@@ -11,23 +11,29 @@ import org.springframework.stereotype.Component;
 
 import com.yanni.sotrav.common.ServiceBeanMapper;
 import com.yanni.sotrav.manager.DataManager;
+import com.yanni.sotrav.manager.IRoomManager;
 import com.yanni.sotrav.models.Location;
 import com.yanni.sotrav.models.Room;
 import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.IWebService;
 
-@Component("createRoomService")
-public class CreateRoomService implements IWebService{
+@Component("roomService")
+public class RoomService implements IWebService, IRoomService{
 	
 	@Autowired
 	@Qualifier("roomManagerBean")
-	protected DataManager _roomManager;
+	protected DataManager _genRoomManager;
+	
+	@Autowired
+	@Qualifier("roomManagerBean")
+	protected IRoomManager roomManager;
 	
 	public String create(HttpServletRequest request, Location loc) {
 		Room room=new Room();
-		room.setLocation_id(loc.getId());
+		//room.setLocation_id(loc.getId());
+		room.setLocation(loc);
 		ServiceBeanMapper.mapBean(room, request);
-		return _roomManager.create(room);
+		return _genRoomManager.create(room);
 	}
 
 	@Override
@@ -39,9 +45,15 @@ public class CreateRoomService implements IWebService{
 		//request.setAttribute("_location", loc);
 		HttpSession session=request.getSession();
 		User usr =(User) session.getAttribute("userLogin");
-		room.setLocation_id(loc.getId());
+		//room.setLocation_id(loc.getId());
+		room.setLocation(loc);
 		room.setUser_id(usr.getId());
-		return _roomManager.create(room);
+		return _genRoomManager.create(room);
+	}
+	
+	@Override
+	public Room getFirstRoom(Long l, Long u) {
+		return roomManager.getFirstRoom(l, u);
 	}
 
 }
