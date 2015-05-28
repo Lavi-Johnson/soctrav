@@ -79,11 +79,12 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 		final User authenticatedUser = (User) userService.loadUserByUsername(usr.getUser_email());
 		final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
 		HttpSession session=request.getSession();
-		if(session.getAttribute(SharedConstants.USER_LOGIN)==null)
+		User u=(User) session.getAttribute(SharedConstants.USER_LOGIN);
+		if(u==null || (u!=null && !usr.getUser_email().equals(u.getUser_email()))){
 			session.setAttribute(SharedConstants.USER_LOGIN, usr);
-
+		}
 		// Add the custom token as HTTP header to the response
-		tokenAuthenticationService.addAuthentication(response, userAuthentication);
+		tokenAuthenticationService.addAuthentication(request, response, userAuthentication);
 		// Add the authentication to the Security context
 		SecurityContextHolder.getContext().setAuthentication(userAuthentication);
 		if(request.getParameter("client")!=null || request.getHeader("client")!=null){
