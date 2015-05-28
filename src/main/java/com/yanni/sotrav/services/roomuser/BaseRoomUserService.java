@@ -1,69 +1,65 @@
-package com.yanni.sotrav.services.room;
+package com.yanni.sotrav.services.roomuser;
 
 import java.io.Serializable;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.yanni.sotrav.common.ServiceBeanMapper;
 import com.yanni.sotrav.manager.DataManager;
-import com.yanni.sotrav.models.Location;
-import com.yanni.sotrav.models.Room;
-import com.yanni.sotrav.models.User;
 import com.yanni.sotrav.services.BaseService;
 
 
-@Component("baseRoomService")
+@Component("baseRoomUserService")
 @Service
-public class BaseRoomService implements BaseService{
+public class BaseRoomUserService implements BaseService{
 	
 	@Autowired
-	@Qualifier("roomManagerBean")
+	@Qualifier("roomUserManagerBean")
 	protected DataManager _roomManager;
 
 	@Override
 	public Object find(Serializable id) {
 		// TODO Auto-generated method stub
-		return (Room) _roomManager.find((Long)id);
+		return _roomManager.find(id);
 	}
 
 	@Override
 	public Object create(Object obj) {
 		// TODO Auto-generated method stub
-		return _roomManager.find((Room)obj);
+		return _roomManager.create(obj);
 	}
 
 	@Override
 	public Object find(Object obj) {
 		// TODO Auto-generated method stub
-		Room r=(Room) obj;
-		return _roomManager.find(r.getId());
+		return _roomManager.find(obj);
 	}
 
 	@Override
-	public void Update(Object room) {
+	public void Update(Object obj) {
 		// TODO Auto-generated method stub
-		_roomManager.update((Room)room);
+		_roomManager.update(obj);
 	}
 
 	@Override
-	public void delete(Object room) {
-		_roomManager.delete((Room) room);
+	public void delete(Object obj) {
+		// TODO Auto-generated method stub
+		_roomManager.delete(obj);;
 		
 	}
 
 	@Override
 	public List findAll() {
+		// TODO Auto-generated method stub
 		return _roomManager.findAll();
 	}
 
 	@Override
 	public List findByCriteria(Object crit) {
+		// TODO Auto-generated method stub
 		return _roomManager.findByCriteria(crit);
 	}
 
