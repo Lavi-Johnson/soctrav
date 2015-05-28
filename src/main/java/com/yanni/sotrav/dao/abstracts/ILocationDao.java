@@ -10,5 +10,6 @@ public interface ILocationDao extends GenericDao<Location, Long>{
 	public List<Location> getAll();
 	public Location find(String provience);
 	public Location find(String name, String city, String province);
+	public List<Location> findAllUserLocation(User usr);
 
 }

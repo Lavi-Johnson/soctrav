@@ -1,5 +1,6 @@
 package com.yanni.sotrav.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.yanni.sotrav.dao.abstracts.GenericDaoImpl;
 import com.yanni.sotrav.dao.abstracts.ILocationDao;
 import com.yanni.sotrav.models.Location;
-import com.yanni.sotrav.models.Message;
 import com.yanni.sotrav.models.User;
 
 @Repository("locationDao")
@@ -32,5 +32,10 @@ public class LocationDao extends GenericDaoImpl<Location, Long> implements ILoca
 	public Location find(String provience) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Location> findAllUserLocation(User usr) {
+		return  new ArrayList<Location>();
 	}
 }
