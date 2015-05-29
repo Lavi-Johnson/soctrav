@@ -73,15 +73,15 @@ public class DatabaseConfig {
     return basicDataSource;
   }
   
-  @Bean(name = "dataSource")
-  public DataSource slaveDataSource() {
-		BasicDataSource basicDataSource = new BasicDataSource();
-		basicDataSource.setDriverClassName(_env.getProperty("db.driver"));
-		basicDataSource.setUrl(_env.getProperty("db.url"));
-		basicDataSource.setUsername(_env.getProperty("db.username"));
-		//basicDataSource.setPassword(_env.getProperty("db.password"));
-	    return basicDataSource;
-  }
+//  @Bean(name = "dataSource")
+//  public DataSource slaveDataSource() {
+//		BasicDataSource basicDataSource = new BasicDataSource();
+//		basicDataSource.setDriverClassName(_env.getProperty("db.driver"));
+//		basicDataSource.setUrl(_env.getProperty("db.url"));
+//		basicDataSource.setUsername(_env.getProperty("db.username"));
+//		//basicDataSource.setPassword(_env.getProperty("db.password"));
+//	    return basicDataSource;
+//  }
 
   /**
    * Declare the JPA entity manager factory.
