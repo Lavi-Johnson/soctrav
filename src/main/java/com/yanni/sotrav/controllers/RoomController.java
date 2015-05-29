@@ -46,7 +46,7 @@ public class RoomController {
 		Location loc=null;
 		loc=(Location)createLocationService.process(request);
 		try{
-			request.setAttribute("_location", loc);
+			request.setAttribute(SharedConstants.LOCATION_OBJECT, loc);
 			processedMsg=(String) createRoomService.process(request);
 		}catch(Exception e){
 			LOGGER.error("deleting the location", e);
