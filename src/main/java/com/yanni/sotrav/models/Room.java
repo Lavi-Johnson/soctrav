@@ -29,6 +29,14 @@ public class Room {
 	@Column(name="location_id", nullable = false)
 	private long location_id;
 		  
+	public long getLocation_id() {
+		return location_id;
+	}
+
+	public void setLocation_id(long location_id) {
+		this.location_id = location_id;
+	}
+
 	@ManyToOne
     @JoinColumn(name="location_id", insertable=false, updatable=false)
 	private Location location;

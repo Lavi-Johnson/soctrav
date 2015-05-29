@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.yanni.sotrav.common.ServiceBeanMapper;
+import com.yanni.sotrav.common.SharedConstants;
 import com.yanni.sotrav.manager.DataManager;
 import com.yanni.sotrav.manager.IRoomManager;
 import com.yanni.sotrav.models.Location;
@@ -40,12 +41,10 @@ public class RoomService implements IWebService, IRoomService{
 	public Object process(HttpServletRequest request) {
 		Room room=new Room();
 		ServiceBeanMapper.mapBean(room, request);
-		Location loc=(Location) request.getAttribute("_location");
-		//room.setUser_id(user_id);
-		//request.setAttribute("_location", loc);
+		Location loc=(Location) request.getAttribute(SharedConstants.LOCATION_OBJECT);
 		HttpSession session=request.getSession();
 		User usr =(User) session.getAttribute("userLogin");
-		//room.setLocation_id(loc.getId());
+		room.setLocation_id(loc.getId());
 		room.setLocation(loc);
 		room.setUser_id(usr.getId());
 		return _genRoomManager.create(room);
