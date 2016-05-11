@@ -5,22 +5,22 @@ import java.io.StringWriter;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.DBObject;
+//import com.mongodb.DBObject;
 
 public class JsonUtil {
 	
 	
-	public static <T> T deserialize(DBObject dbObject, Class<T> entityClass) {
-		String str = dbObject.toString();
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		try {
-			return unmarshalFromJSON(objectMapper, str, entityClass);
-		}
-		catch(Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+//	public static <T> T deserialize(DBObject dbObject, Class<T> entityClass) {
+//		String str = dbObject.toString();
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//		try {
+//			return unmarshalFromJSON(objectMapper, str, entityClass);
+//		}
+//		catch(Exception e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
 	
 	public static <T> T unmarshalFromJSON(ObjectMapper objectMapper, String json, Class<T> objectClass) throws IOException {
 		return objectMapper.readValue(json, objectClass);

@@ -19,8 +19,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+//import org.joda.time.DateTime;
+//import org.joda.time.DateTimeZone;
 public class GeneralUtil {
     public static final int ADDRESS_FIELD = 1;
     public static final int CITY_FIELD = 2;
@@ -929,34 +929,34 @@ public class GeneralUtil {
         return date;
     }
 
-    public static Date toPST(Date date) {
-        return getGMTMinus8Calendar(date).getTime();
-    }
+//    public static Date toPST(Date date) {
+//        return getGMTMinus8Calendar(date).getTime();
+//    }
+//
+//    public static Calendar toGMTMinus8Calendar(Date date) {
+//        return getGMTMinus8Calendar(date);
+//    }
 
-    public static Calendar toGMTMinus8Calendar(Date date) {
-        return getGMTMinus8Calendar(date);
-    }
-
-    public static Calendar dateToGmtMinus8OffsettingForMidnight(Date date) {
-        DateTime currentDate = new DateTime(date);
-        if(timeIsAtEndOfDay(currentDate)) {
-            return convertDateTimeToGMTMinus8Calendar(currentDate);
-        }
-        currentDate = currentDate.plusSeconds(1);
-        return convertDateTimeToGMTMinus8Calendar(currentDate);
-    }
-
-    private static Calendar convertDateTimeToGMTMinus8Calendar(DateTime currentDate) {
-        return currentDate.withZoneRetainFields(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT-8"))).toCalendar(Locale.US);
-    }
-
-    private static boolean timeIsAtEndOfDay(DateTime currentDate) {
-        return currentDate.getHourOfDay() == 23 && currentDate.getMinuteOfHour() == 59 && currentDate.getSecondOfMinute() == 59;
-    }
-
-    public static Calendar getGMTMinus8Calendar(Date date) {
-        return convertDateTimeToGMTMinus8Calendar(new DateTime(date));
-    }
+//    public static Calendar dateToGmtMinus8OffsettingForMidnight(Date date) {
+//        DateTime currentDate = new DateTime(date);
+//        if(timeIsAtEndOfDay(currentDate)) {
+//            return convertDateTimeToGMTMinus8Calendar(currentDate);
+//        }
+//        currentDate = currentDate.plusSeconds(1);
+//        return convertDateTimeToGMTMinus8Calendar(currentDate);
+//    }
+//
+//    private static Calendar convertDateTimeToGMTMinus8Calendar(DateTime currentDate) {
+//        return currentDate.withZoneRetainFields(DateTimeZone.forTimeZone(TimeZone.getTimeZone("GMT-8"))).toCalendar(Locale.US);
+//    }
+//
+//    private static boolean timeIsAtEndOfDay(DateTime currentDate) {
+//        return currentDate.getHourOfDay() == 23 && currentDate.getMinuteOfHour() == 59 && currentDate.getSecondOfMinute() == 59;
+//    }
+//
+//    public static Calendar getGMTMinus8Calendar(Date date) {
+//        return convertDateTimeToGMTMinus8Calendar(new DateTime(date));
+//    }
 
     public static void randomShuffle(List<? extends Object> list) {
     	int total = list.size();
