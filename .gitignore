@@ -17,20 +17,3 @@ target/m2e-wtp/web-resources/META-INF/maven/org.yanni/soctrav/pom.properties
 # Or you can do:
 target/
 # which matches 'target' in any sub folder
-target/classes/com/yanni/sotrav/dao/IUserDao.class
-
-target/classes/com/yanni/sotrav/dao/UserDao.class
-
-target/classes/com/yanni/sotrav/exceptions/ResourceNotFoundException.class
-
-target/classes/com/yanni/sotrav/models/Location.class
-
-target/classes/com/yanni/sotrav/models/*
-
-target/classes/com/yanni/sotrav/models/Room.class
-
-target/classes/com/yanni/sotrav/models/User.class
-
-target/maven-archiver/pom.properties
-
-target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
