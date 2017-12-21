@@ -7,3 +7,6 @@ We are using maven to do the build. Please ignore the module soctrav-app for now
 In order to run social traveler run in terminal:
 
 mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+
+Mysql:
+We we use mysql as the relational db.. https://www.mysql.com/downloads/
