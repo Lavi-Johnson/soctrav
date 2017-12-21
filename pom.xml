@@ -6,7 +6,7 @@
   <groupId>org.yanni</groupId>
   <artifactId>soctrav</artifactId>
   <version>1.0</version>
-  <packaging>war</packaging>
+  <packaging>pom</packaging>
 
   <name>spring-boot-mysql-jpa-hibernate</name>
   <description>Use JPA + Hibernate + MySQL in Spring Boot</description>
