@@ -2,7 +2,7 @@ var ws;
 
 function connect() {
     var username = document.getElementById("username").value;
-    ws = new WebSocket("ws://localhost:8183/java-websocket/chat/" + username);
+    ws = new WebSocket("ws://localhost:8183/websocket/chat/" + username);
     //ws = new WebSocket("ws://" + document.location.host + "http://localhost:8183//java-websocket/chat/" + username);
 
 

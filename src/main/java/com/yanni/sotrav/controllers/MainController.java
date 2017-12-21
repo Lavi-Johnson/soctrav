@@ -80,6 +80,12 @@ public class MainController {
 		return stringBuilder.toString();
 	}
 
+	@RequestMapping("nav/chat.html")
+	public ModelAndView getChatView() {
+		ModelMap model = new ModelMap();
+		return new ModelAndView("chat", model);
+	}
+
 	// http://localhost:8080/soctrav/
 	@RequestMapping({ "/home.html", "/" })
 	public String welcome(Map<String, Object> model) {

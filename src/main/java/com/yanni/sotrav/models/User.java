@@ -57,9 +57,9 @@ public class User implements UserDetails{
 	@Column(name="user_registered", nullable = false)
 	private Date user_registered;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="user_end_date", nullable = false)
-	private Date user_end_date;
+//	@Temporal(TemporalType.TIMESTAMP)
+//	@Column(name="user_end_date", nullable = false)
+//	private Date user_end_date;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="update_dt", nullable = false)
@@ -211,13 +211,13 @@ public class User implements UserDetails{
 	  this.username = name;
 	}
 	
-	public Date getUser_end_date() {
-		return user_end_date;
-	}
-
-	public void setUser_end_date(Date user_end_date) {
-		this.user_end_date = user_end_date;
-	}
+//	public Date getUser_end_date() {
+//		return user_end_date;
+//	}
+//
+//	public void setUser_end_date(Date user_end_date) {
+//		this.user_end_date = user_end_date;
+//	}
 	
 	public long getExpires() {
 		return expires;
