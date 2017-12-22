@@ -22,6 +22,9 @@
             <button type="button" onclick="send();" >Send</button>
         </td>
     </tr>
+    <tr>
+        <button type="button" onclick="closeSocket();" >Close</button>
+    </tr>
 </table>
 </body>
 
