@@ -12,6 +12,11 @@ function connect() {
         var message = JSON.parse(event.data);
         log.innerHTML += message.from + " : " + message.content + "\n";
     };
+
+    ws.onclose = function(event){
+        log.innerHTML += " Connection Closed \n";
+    };
+
 }
 
 function send() {
@@ -21,4 +26,8 @@ function send() {
     });
 
     ws.send(json);
+}
+
+function closeSocket(){
+    ws.close();
 }
