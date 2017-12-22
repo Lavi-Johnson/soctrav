@@ -11,7 +11,7 @@
 
     <artifactId>soctrav-app</artifactId>
 
-    <name>spring-boot-mysql-jpa-hibernate</name>
+    <name>soctrav-app</name>
     <description>Use JPA + Hibernate + MySQL in Spring Boot</description>
 
     <!-- <parent>
