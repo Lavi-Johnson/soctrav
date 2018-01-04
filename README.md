@@ -10,3 +10,4 @@ mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,se
 
 Mysql:
 We we use mysql as the relational db.. https://www.mysql.com/downloads/
+Run schema scripts in database folder.
