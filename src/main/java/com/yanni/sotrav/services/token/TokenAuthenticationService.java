@@ -101,7 +101,6 @@ public class TokenAuthenticationService {
              cookies[i].setMaxAge(0);
              cookies[i].setValue("");
              response.addCookie(cookies[i]);
-             break;
             }
         }
 	}

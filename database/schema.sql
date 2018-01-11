@@ -100,4 +100,14 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `status`, `update_dt`, `user_pass`, `user_name`, `first_name`, `middle_name`, `last_name`, `user_email`, `user_registered`, `user_activation_key`, `alias`, `user_type_id`, `accountEnabled`, `accountExpired`, `accountLocked`, `credentialsExpired`, `expires`)
 VALUES
 	(1, 1, '2017-12-17 20:28:34', '$2a$10$HYlZycWQMxuOGCNrSslJQ.C3OEYc6bVoq2fTpDjFKb4FgpxreAP0G', 'ypeng', 'yanni', '', 'peng', 'yanni.peng@socialtraveler.com', '2017-12-17 19:51:48', 'youractivated', 'yannmulaa', 1, 0, 0, 0, 0, 0);
+INSERT INTO `users` (`user_id`, `status`, `update_dt`, `user_pass`, `user_name`, `first_name`, `middle_name`, `last_name`, `user_email`, `user_registered`, `user_activation_key`, `alias`, `user_type_id`, `accountEnabled`, `accountExpired`, `accountLocked`, `credentialsExpired`, `expires`)
+VALUES
+	(2, 1, '2017-12-17 20:28:34', '$2a$10$HYlZycWQMxuOGCNrSslJQ.C3OEYc6bVoq2fTpDjFKb4FgpxreAP0G', 'usr_random', 'rick', '', 'flair', 'user@socialtraveler.com', '2017-12-17 19:51:48', 'youractivated', 'randomuser', 3, 0, 0, 0, 0, 0);
+
+INSERT INTO `user_type` (`user_type_id`, `description`)
+VALUES
+	(1, 'SUPER_ADMIN'),
+	(2, 'ADMIN'),
+	(3, 'USER');
+
 
