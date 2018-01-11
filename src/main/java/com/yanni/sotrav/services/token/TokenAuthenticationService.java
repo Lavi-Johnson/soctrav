@@ -66,7 +66,7 @@ public class TokenAuthenticationService {
 			}
 		}
 		final String token =chkTok;
-		if (token != null) {
+		if (token != null && !token.trim().equals("")) {
 			final User user = tokenHandler.parseUserFromToken(token);
 			HttpSession session=request.getSession();
 			if(user!=null && session.getAttribute(SharedConstants.USER_LOGIN+user.getUser_email())==null)
