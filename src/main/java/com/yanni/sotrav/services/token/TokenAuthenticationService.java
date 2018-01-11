@@ -69,7 +69,7 @@ public class TokenAuthenticationService {
 		if (token != null) {
 			final User user = tokenHandler.parseUserFromToken(token);
 			HttpSession session=request.getSession();
-			if(session.getAttribute(SharedConstants.USER_LOGIN+user.getUser_email())==null && user!=null)
+			if(user!=null && session.getAttribute(SharedConstants.USER_LOGIN+user.getUser_email())==null)
 				session.setAttribute(SharedConstants.USER_LOGIN+user.getUser_email(), user);
 			if (user != null) {
 				return new UserAuthentication(user);
